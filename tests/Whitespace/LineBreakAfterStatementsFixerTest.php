@@ -12,7 +12,7 @@ use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
  *
  * @author ErickSkrauch <erickskrauch@ely.by>
  */
-class LineBreakAfterStatementsFixerTest extends AbstractFixerTestCase {
+final class LineBreakAfterStatementsFixerTest extends AbstractFixerTestCase {
 
     /**
      * @dataProvider provideFixCases

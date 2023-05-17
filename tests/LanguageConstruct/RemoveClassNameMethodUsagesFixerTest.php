@@ -10,7 +10,7 @@ use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 /**
  * @covers \ErickSkrauch\PhpCsFixer\LanguageConstruct\RemoveClassNameMethodUsagesFixer
  */
-class RemoveClassNameMethodUsagesFixerTest extends AbstractFixerTestCase {
+final class RemoveClassNameMethodUsagesFixerTest extends AbstractFixerTestCase {
 
     /**
      * @dataProvider provideFixCases
