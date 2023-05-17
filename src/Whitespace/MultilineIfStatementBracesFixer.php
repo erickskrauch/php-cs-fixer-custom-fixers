@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace ErickSkrauch\PhpCsFixer\Whitespace;
 
-use Ely\CS\Fixer\AbstractFixer;
+use ErickSkrauch\PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
