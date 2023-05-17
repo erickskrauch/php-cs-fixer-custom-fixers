@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "480d2033c20f57cddd77efb5461f2c63",
+    "content-hash": "504efa41d3b2bb01acce593cf945a802",
     "packages": [
         {
             "name": "composer/pcre",
@@ -423,16 +423,16 @@
         },
         {
             "name": "friendsofphp/php-cs-fixer",
-            "version": "v3.15.1",
+            "version": "v3.16.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer.git",
-                "reference": "d48755372a113bddb99f749e34805d83f3acfe04"
+                "reference": "d40f9436e1c448d309fa995ab9c14c5c7a96f2dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/d48755372a113bddb99f749e34805d83f3acfe04",
-                "reference": "d48755372a113bddb99f749e34805d83f3acfe04",
+                "url": "https://api.github.com/repos/PHP-CS-Fixer/PHP-CS-Fixer/zipball/d40f9436e1c448d309fa995ab9c14c5c7a96f2dc",
+                "reference": "d40f9436e1c448d309fa995ab9c14c5c7a96f2dc",
                 "shasum": ""
             },
             "require": {
@@ -507,7 +507,7 @@
             ],
             "support": {
                 "issues": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues",
-                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.15.1"
+                "source": "https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/tree/v3.16.0"
             },
             "funding": [
                 {
@@ -515,7 +515,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2023-03-13T23:26:30+00:00"
+            "time": "2023-04-02T19:30:06+00:00"
         },
         {
             "name": "psr/cache",
@@ -2244,21 +2244,21 @@
         },
         {
             "name": "ely/php-code-style",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elyby/php-code-style.git",
-                "reference": "5373d05c91e0a75e258834cc0a36f38484fafa9d"
+                "reference": "7c4ed0f859c9e7a4c5c280d81b128110c648b8d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elyby/php-code-style/zipball/5373d05c91e0a75e258834cc0a36f38484fafa9d",
-                "reference": "5373d05c91e0a75e258834cc0a36f38484fafa9d",
+                "url": "https://api.github.com/repos/elyby/php-code-style/zipball/7c4ed0f859c9e7a4c5c280d81b128110c648b8d1",
+                "reference": "7c4ed0f859c9e7a4c5c280d81b128110c648b8d1",
                 "shasum": ""
             },
             "require": {
-                "erickskrauch/php-cs-fixer-custom-fixers": "^1",
-                "friendsofphp/php-cs-fixer": "^3.13",
+                "erickskrauch/php-cs-fixer-custom-fixers": "^1.0.1",
+                "friendsofphp/php-cs-fixer": "^3.16",
                 "kubawerlos/php-cs-fixer-custom-fixers": "^3.13",
                 "php": "^7.4 || ^8.0",
                 "symfony/polyfill-php80": "^1.15"
@@ -2266,7 +2266,6 @@
             "require-dev": {
                 "ergebnis/composer-normalize": "^2.28"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2295,9 +2294,9 @@
             ],
             "support": {
                 "issues": "https://github.com/elyby/php-code-style/issues",
-                "source": "https://github.com/elyby/php-code-style/tree/master"
+                "source": "https://github.com/elyby/php-code-style/tree/1.0.0"
             },
-            "time": "2023-05-17T18:08:37+00:00"
+            "time": "2023-05-17T21:35:51+00:00"
         },
         {
             "name": "ergebnis/composer-normalize",
@@ -2639,26 +2638,26 @@
         },
         {
             "name": "kubawerlos/php-cs-fixer-custom-fixers",
-            "version": "v3.13.0",
+            "version": "v3.14.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers.git",
-                "reference": "fb53d8bbe2224383a84c71f451d76eb7bc6c8e33"
+                "reference": "0414fbeada4360510df515b613ccc4055921a3c7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/kubawerlos/php-cs-fixer-custom-fixers/zipball/fb53d8bbe2224383a84c71f451d76eb7bc6c8e33",
-                "reference": "fb53d8bbe2224383a84c71f451d76eb7bc6c8e33",
+                "url": "https://api.github.com/repos/kubawerlos/php-cs-fixer-custom-fixers/zipball/0414fbeada4360510df515b613ccc4055921a3c7",
+                "reference": "0414fbeada4360510df515b613ccc4055921a3c7",
                 "shasum": ""
             },
             "require": {
                 "ext-filter": "*",
                 "ext-tokenizer": "*",
-                "friendsofphp/php-cs-fixer": "^3.6.0",
+                "friendsofphp/php-cs-fixer": "^3.16.0",
                 "php": "^7.4 || ^8.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^9.5.20"
+                "phpunit/phpunit": "^9.6.4 || ^10.0.14"
             },
             "type": "library",
             "autoload": {
@@ -2679,9 +2678,9 @@
             "description": "A set of custom fixers for PHP CS Fixer",
             "support": {
                 "issues": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/issues",
-                "source": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/tree/v3.13.0"
+                "source": "https://github.com/kubawerlos/php-cs-fixer-custom-fixers/tree/v3.14.0"
             },
-            "time": "2023-02-15T18:51:16+00:00"
+            "time": "2023-04-03T20:47:19+00:00"
         },
         {
             "name": "localheinz/diff",
@@ -4955,9 +4954,7 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": {
-        "ely/php-code-style": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
