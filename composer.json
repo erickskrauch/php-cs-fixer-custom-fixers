@@ -48,5 +48,10 @@
             "friendsofphp/php-cs-fixer": "source"
         },
         "sort-packages": true
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.99.99-dev"
+        }
     }
 }

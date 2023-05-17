@@ -41,6 +41,8 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
+        env:
+          COMPOSER_ROOT_VERSION: "1.99.99"
         run: composer install
 
       - name: Normalize composer.json

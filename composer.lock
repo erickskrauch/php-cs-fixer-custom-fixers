@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1c114f3de4c95b710f8627595fe3e4ab",
+    "content-hash": "8642037d91dc7cd40ddd85276f5f4d18",
     "packages": [
         {
             "name": "composer/pcre",
@@ -2248,16 +2248,16 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/elyby/php-code-style.git",
-                "reference": "62932ec0f7e72cae9d68aa749142dad9f7e36544"
+                "reference": "5373d05c91e0a75e258834cc0a36f38484fafa9d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elyby/php-code-style/zipball/62932ec0f7e72cae9d68aa749142dad9f7e36544",
-                "reference": "62932ec0f7e72cae9d68aa749142dad9f7e36544",
+                "url": "https://api.github.com/repos/elyby/php-code-style/zipball/5373d05c91e0a75e258834cc0a36f38484fafa9d",
+                "reference": "5373d05c91e0a75e258834cc0a36f38484fafa9d",
                 "shasum": ""
             },
             "require": {
-                "erickskrauch/php-cs-fixer-custom-fixers": "dev-master#62c2a014cb9a8cf7665c82040a5d19d88ef8e583",
+                "erickskrauch/php-cs-fixer-custom-fixers": "^1",
                 "friendsofphp/php-cs-fixer": "^3.13",
                 "kubawerlos/php-cs-fixer-custom-fixers": "^3.13",
                 "php": "^7.4 || ^8.0",
@@ -2297,7 +2297,7 @@
                 "issues": "https://github.com/elyby/php-code-style/issues",
                 "source": "https://github.com/elyby/php-code-style/tree/master"
             },
-            "time": "2023-05-17T17:54:10+00:00"
+            "time": "2023-05-17T18:08:37+00:00"
         },
         {
             "name": "ergebnis/composer-normalize",
