@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  Build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions:
+          - '7.4'
+          - '8.0'
+          - '8.1'
+          - '8.2'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ctype, mbstring
+          tools: cs2pr
+
+      - name: Get Composer's cache directory
+        id: composer-cache-path
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v3
+        id: composer-cache
+        with:
+          path: ${{ steps.composer-cache-path.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install dependencies
+        run: composer install
+
+      - name: Normalize composer.json
+        if: matrix.php-versions == '8.1'
+        run: composer normalize --dry-run
+
+      - name: PHP-CS-Fixer
+        if: matrix.php-versions == '8.1'
+        run: vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
+
+      # https://github.com/marketplace/actions/setup-php-action#phpunit
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+
+      - name: PHPUnit
+        run: vendor/bin/phpunit

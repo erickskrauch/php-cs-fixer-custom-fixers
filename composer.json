@@ -1,0 +1,51 @@
+{
+    "name": "erickskrauch/php-cs-fixer-custom-fixers",
+    "description": "A set of custom fixers for PHP-CS-Fixer",
+    "license": "MIT",
+    "type": "library",
+    "keywords": [
+        "php-cs-fixer",
+        "code style"
+    ],
+    "authors": [
+        {
+            "name": "ErickSkrauch",
+            "email": "erickskrauch@ely.by"
+        }
+    ],
+    "homepage": "https://github.com/erickskrauch/php-cs-fixer-custom-fixers",
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "friendsofphp/php-cs-fixer": "^3"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.28",
+        "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.2",
+        "phpspec/prophecy": "^1.15",
+        "phpspec/prophecy-phpunit": "^2.0",
+        "phpunit/phpunit": "^9.5",
+        "phpunitgoodpractices/polyfill": "^1.5",
+        "phpunitgoodpractices/traits": "^1.9.1",
+        "symfony/phpunit-bridge": "^6.0",
+        "ely/php-code-style": "^0.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "ErickSkrauch\\PhpCsFixer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ErickSkrauch\\PhpCsFixer\\Tests\\": "tests/",
+            "PhpCsFixer\\Tests\\": "vendor/friendsofphp/php-cs-fixer/tests/"
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true
+        },
+        "preferred-install": {
+            "friendsofphp/php-cs-fixer": "source"
+        }
+    }
+}
