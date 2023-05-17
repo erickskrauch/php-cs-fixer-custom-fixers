@@ -76,6 +76,13 @@ new class extends Foo {
         );
     }
 
+    /**
+     * Must run after NoExtraBlankLinesFixer (-20), ClassDefinitionFixer (36) and CurlyBracesPositionFixer (0).
+     */
+    public function getPriority(): int {
+        return -21;
+    }
+
     public function isCandidate(Tokens $tokens): bool {
         return $tokens->isAnyTokenKindsFound(Token::getClassyTokenKinds());
     }
