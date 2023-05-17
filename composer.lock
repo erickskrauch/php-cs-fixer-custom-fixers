@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f2f0eec24fc5b5a342099333f4ab9a6",
+    "content-hash": "1c114f3de4c95b710f8627595fe3e4ab",
     "packages": [
         {
             "name": "composer/pcre",
@@ -2244,34 +2244,29 @@
         },
         {
             "name": "ely/php-code-style",
-            "version": "0.5.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elyby/php-code-style.git",
-                "reference": "84dd1184b8c8248840cde0027eb3f0d15225cde3"
+                "reference": "62932ec0f7e72cae9d68aa749142dad9f7e36544"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elyby/php-code-style/zipball/84dd1184b8c8248840cde0027eb3f0d15225cde3",
-                "reference": "84dd1184b8c8248840cde0027eb3f0d15225cde3",
+                "url": "https://api.github.com/repos/elyby/php-code-style/zipball/62932ec0f7e72cae9d68aa749142dad9f7e36544",
+                "reference": "62932ec0f7e72cae9d68aa749142dad9f7e36544",
                 "shasum": ""
             },
             "require": {
+                "erickskrauch/php-cs-fixer-custom-fixers": "dev-master#62c2a014cb9a8cf7665c82040a5d19d88ef8e583",
                 "friendsofphp/php-cs-fixer": "^3.13",
                 "kubawerlos/php-cs-fixer-custom-fixers": "^3.13",
                 "php": "^7.4 || ^8.0",
                 "symfony/polyfill-php80": "^1.15"
             },
             "require-dev": {
-                "ergebnis/composer-normalize": "^2.28",
-                "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.2",
-                "phpspec/prophecy": "^1.15",
-                "phpspec/prophecy-phpunit": "^2.0",
-                "phpunit/phpunit": "^9.5",
-                "phpunitgoodpractices/polyfill": "^1.5",
-                "phpunitgoodpractices/traits": "^1.9.1",
-                "symfony/phpunit-bridge": "^6.0"
+                "ergebnis/composer-normalize": "^2.28"
             },
+            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2300,9 +2295,9 @@
             ],
             "support": {
                 "issues": "https://github.com/elyby/php-code-style/issues",
-                "source": "https://github.com/elyby/php-code-style/tree/0.5.0"
+                "source": "https://github.com/elyby/php-code-style/tree/master"
             },
-            "time": "2023-04-08T19:37:10+00:00"
+            "time": "2023-05-17T17:54:10+00:00"
         },
         {
             "name": "ergebnis/composer-normalize",
@@ -4960,7 +4955,9 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "ely/php-code-style": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

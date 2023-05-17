@@ -19,7 +19,7 @@
         "friendsofphp/php-cs-fixer": "^3"
     },
     "require-dev": {
-        "ely/php-code-style": "^0.5",
+        "ely/php-code-style": "dev-master",
         "ergebnis/composer-normalize": "^2.28",
         "php-cs-fixer/phpunit-constraint-isidenticalstring": "^1.2",
         "phpspec/prophecy": "^1.15",
