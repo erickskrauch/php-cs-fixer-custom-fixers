@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace ErickSkrauch\PhpCsFixer\Tests\Whitespace;
 
-use Ely\CS\Fixer\Whitespace\MultilineIfStatementBracesFixer;
+use ErickSkrauch\PhpCsFixer\Whitespace\MultilineIfStatementBracesFixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 
 /**
- * @covers \Ely\CS\Fixer\Whitespace\MultilineIfStatementBracesFixer
+ * @covers \ErickSkrauch\PhpCsFixer\Whitespace\MultilineIfStatementBracesFixer
  */
 final class MultilineIfStatementBracesFixerTest extends AbstractFixerTestCase {
 
