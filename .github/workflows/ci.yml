@@ -50,7 +50,7 @@ jobs:
       - name: Install dependencies
         env:
           COMPOSER_ROOT_VERSION: "1.99.99"
-        run: composer install
+        run: composer install ${{ matrix.composer-flags }}
 
       - name: Normalize composer.json
         if: matrix.lint
