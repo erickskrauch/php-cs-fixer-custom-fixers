@@ -11,12 +11,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-versions:
-          - '7.4'
-          - '8.0'
-          - '8.1'
-          - '8.2'
-          - '8.3'
+        include:
+          - php-version: '7.4'
+
+          - php-version: '8.0'
+
+          - php-version: '8.1'
+            lint: true
+
+          - php-version: '8.2'
+
+          - php-version: '8.3'
+            composer-flags: '--ignore-platform-req=php'
 
     steps:
       - name: Checkout
@@ -25,7 +31,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: ${{ matrix.php-versions }}
+          php-version: ${{ matrix.php-version }}
           extensions: ctype, mbstring
           tools: cs2pr
 
@@ -38,7 +44,7 @@ jobs:
         id: composer-cache
         with:
           path: ${{ steps.composer-cache-path.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}-${{ matrix.composer-flags }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Install dependencies
@@ -47,11 +53,11 @@ jobs:
         run: composer install
 
       - name: Normalize composer.json
-        if: matrix.php-versions == '8.1'
+        if: matrix.lint
         run: composer normalize --dry-run
 
       - name: PHP-CS-Fixer
-        if: matrix.php-versions == '8.1'
+        if: matrix.lint
         run: vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
 
       # https://github.com/marketplace/actions/setup-php-action#phpunit
