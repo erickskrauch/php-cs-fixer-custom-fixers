@@ -52,7 +52,7 @@ if ($condition1 == true
 
     protected function createConfigurationDefinition(): FixerConfigurationResolverInterface {
         return new FixerConfigurationResolver([
-            (new FixerOptionBuilder(self::C_KEEP_ON_OWN_LINE, 'adjusts the position of condition closing brace.'))
+            (new FixerOptionBuilder(self::C_KEEP_ON_OWN_LINE, 'Adjusts the position of condition closing brace.'))
                 ->setAllowedTypes(['bool'])
                 ->setDefault(true)
                 ->getOption(),
