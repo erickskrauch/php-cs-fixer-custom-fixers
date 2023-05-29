@@ -17,12 +17,15 @@ jobs:
           - php-version: '8.0'
 
           - php-version: '8.1'
+            job-description: with lint
             lint: true
 
           - php-version: '8.2'
 
           - php-version: '8.3'
             composer-flags: '--ignore-platform-req=php'
+
+    name: PHP ${{ matrix.php-version }} ${{ matrix.job-description }}
 
     steps:
       - name: Checkout
