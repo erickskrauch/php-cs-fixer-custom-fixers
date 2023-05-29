@@ -111,7 +111,6 @@ class Good
 }',
         ];
 
-
         yield [
             '<?php
 interface Good

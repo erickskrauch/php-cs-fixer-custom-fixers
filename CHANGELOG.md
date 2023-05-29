@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Enh #1: `ErickSkrauch\line_break_after_statements` is now also fixes `try-catch-finally` block.
 
 ## [1.0.1] - 2023-05-17
 ### Fixed

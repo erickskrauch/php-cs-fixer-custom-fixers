@@ -9,8 +9,6 @@ use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 
 /**
  * @covers \ErickSkrauch\PhpCsFixer\Whitespace\LineBreakAfterStatementsFixer
- *
- * @author ErickSkrauch <erickskrauch@ely.by>
  */
 final class LineBreakAfterStatementsFixerTest extends AbstractFixerTestCase {
 
@@ -581,6 +579,74 @@ class Foo
             do {
                 $a = 123;
             } while ($value > 10); // comment here
+            ',
+        ];
+
+        yield [
+            '<?php
+            try {
+                $a = 123;
+            } catch (Throwable $e) {
+                // Do nothing
+            }
+
+            $a = 321;
+            ',
+            '<?php
+            try {
+                $a = 123;
+            } catch (Throwable $e) {
+                // Do nothing
+            }
+            $a = 321;
+            ',
+        ];
+
+        yield [
+            '<?php
+            try {
+                $a = 123;
+            } catch (Exception $e) {
+                // Do nothing
+            } catch (Throwable $e) {
+                // More general nothing
+            }
+
+            $a = 321;
+            ',
+            '<?php
+            try {
+                $a = 123;
+            } catch (Exception $e) {
+                // Do nothing
+            } catch (Throwable $e) {
+                // More general nothing
+            }
+            $a = 321;
+            ',
+        ];
+
+        yield [
+            '<?php
+            try {
+                $a = 123;
+            } catch (Throwable $e) {
+                // Do nothing
+            } finally {
+                // Also do something
+            }
+
+            $a = 321;
+            ',
+            '<?php
+            try {
+                $a = 123;
+            } catch (Throwable $e) {
+                // Do nothing
+            } finally {
+                // Also do something
+            }
+            $a = 321;
             ',
         ];
     }

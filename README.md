@@ -108,8 +108,7 @@ and only in cases, when on the current nesting level more than one statements.
 
 ### `ErickSkrauch/line_break_after_statements`
 
-Ensures that there is one blank line above the next statements: `if`, `switch`, `for`, `foreach`, `while`
-and `do-while`.
+Ensures that there is one blank line above the next statements: `if`, `switch`, `for`, `foreach`, `while`, `do-while` and `try-catch-finally`.
 
 ```diff
 --- Original

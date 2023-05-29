@@ -13,14 +13,6 @@ use PhpCsFixer\Tokenizer\Token;
 use PhpCsFixer\Tokenizer\Tokens;
 use SplFileInfo;
 
-/**
- * This is rewritten version of the original fixer created by @PedroTroller with improved cases validation and
- * targeted to the PHP-CS-Fixer 2.11 version.
- *
- * @url https://github.com/PedroTroller/PhpCSFixer-Custom-Fixers/blob/affdf99f51/src/PedroTroller/CS/Fixer/CodingStyle/LineBreakBetweenStatementsFixer.php
- *
- * @author ErickSkrauch <erickskrauch@ely.by>
- */
 final class LineBreakAfterStatementsFixer extends AbstractFixer implements WhitespacesAwareFixerInterface {
 
     /**
@@ -32,6 +24,7 @@ final class LineBreakAfterStatementsFixer extends AbstractFixer implements White
         T_FOR,
         T_FOREACH,
         T_WHILE,
+        T_TRY,
     ];
 
     public function getDefinition(): FixerDefinitionInterface {
@@ -67,6 +60,11 @@ class Foo
         switch("123") {
             case "123":
                 break;
+        }
+        try {
+            // ...
+        } catch (Throwable $e) {
+            // ...
         }
         $a = "next statement";
     }
@@ -161,6 +159,11 @@ class Foo
                 return $this->findStatementEnd($tokens, $nextNextStatementIndex);
             }
 
+            return $this->findStatementEnd($tokens, $nextStatementIndex);
+        }
+
+        // `try {} catch {} finally {}`
+        if ($tokens[$nextStatementIndex]->isGivenKind([T_CATCH, T_FINALLY])) {
             return $this->findStatementEnd($tokens, $nextStatementIndex);
         }
 
