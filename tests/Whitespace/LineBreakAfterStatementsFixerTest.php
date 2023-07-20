@@ -290,34 +290,6 @@ class Foo
             '<?php
 class Foo
 {
-    public function bar()
-    {
-        foreach (["foo", "bar"] as $str) {
-            if ($str === "foo") {
-                // code
-            }
-        }
-    }
-}',
-            '<?php
-class Foo
-{
-    public function bar()
-    {
-        foreach (["foo", "bar"] as $str) {
-            if ($str === "foo") {
-                // code
-            }
-
-        }
-    }
-}',
-        ];
-
-        yield [
-            '<?php
-class Foo
-{
     public function foo()
     {
         switch ("str") {

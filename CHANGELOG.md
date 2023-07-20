@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Changed
+- `ErickSkrauch\line_break_after_statements` no longer removes extra blank lines in consecutive closing curly braces. Use [`no_extra_blank_lines`](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/blob/master/doc/rules/whitespace/no_extra_blank_lines.rst) with `curly_brace_block` tokens configuration for this fix.
 
 ## [1.1.0] - 2023-05-29
 ### Added

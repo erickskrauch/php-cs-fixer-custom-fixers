@@ -16,7 +16,7 @@ use SplFileInfo;
 final class LineBreakAfterStatementsFixer extends AbstractFixer implements WhitespacesAwareFixerInterface {
 
     /**
-     * There is no 'do', 'cause the processing of the 'while' also includes do {} while (); construction
+     * There is no 'do', 'cause the processing of the 'while' also includes "do {} while ();" construction
      */
     private const STATEMENTS = [
         T_IF,
@@ -92,23 +92,18 @@ class Foo
 
             $endStatementIndex = $this->findStatementEnd($tokens, $index);
             $nextStatementIndex = $tokens->getNextMeaningfulToken($endStatementIndex);
-            if ($nextStatementIndex === null) {
+            if ($nextStatementIndex === null || $tokens[$nextStatementIndex]->equals('}')) {
                 continue;
             }
 
-            if ($tokens[$nextStatementIndex]->equals('}')) {
-                $this->fixBlankLines($tokens, $endStatementIndex + 1, 0);
-                continue;
-            }
-
-            $this->fixBlankLines($tokens, $endStatementIndex + 1, 1);
+            $this->ensureBlankLine($tokens, $endStatementIndex + 1);
         }
     }
 
-    private function fixBlankLines(Tokens $tokens, int $index, int $countLines): void {
+    private function ensureBlankLine(Tokens $tokens, int $index): void {
         $content = $tokens[$index]->getContent();
         // Apply fix only in the case when the count lines do not equals to expected
-        if (substr_count($content, "\n") === $countLines + 1) {
+        if (substr_count($content, "\n") === 2) {
             return;
         }
 
@@ -116,7 +111,7 @@ class Foo
         Preg::matchAll('/[^\n\r]+[\r\n]*/', $content, $matches);
         $lines = $matches[0];
         $eol = $this->whitespacesConfig->getLineEnding();
-        $tokens[$index] = new Token([T_WHITESPACE, str_repeat($eol, $countLines + 1) . end($lines)]);
+        $tokens[$index] = new Token([T_WHITESPACE, str_repeat($eol, 2) . end($lines)]);
     }
 
     private function findStatementEnd(Tokens $tokens, int $index): int {
