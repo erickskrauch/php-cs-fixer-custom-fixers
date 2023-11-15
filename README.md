@@ -22,7 +22,7 @@ Then in your configuration file (`.php-cs-fixer.php`) register fixers and use th
 return (new \PhpCsFixer\Config())
     ->registerCustomFixers(new \ErickSkrauch\PhpCsFixer\Fixers())
     ->setRules([
-        'ErickSkrauch\align_multiline_parameters' => true,
+        'ErickSkrauch/align_multiline_parameters' => true,
         // See the rest of the fixers below
     ]);
 ```
