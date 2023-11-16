@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.2.1] - 2023-11-16
 ### Fixed
 - Bug #3: `ErickSkrauch/align_multiline_parameters` not working correctly with nullable type hints.
 
@@ -24,7 +26,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Initial implementation (extracted from [`elyby/php-code-style`](https://github.com/elyby/php-code-style/tree/0.5.0)).
 
-[Unreleased]: https://github.com/erickskrauch/php-cs-fixer-custom-fixers/compare/1.2.0...HEAD
+[Unreleased]: https://github.com/erickskrauch/php-cs-fixer-custom-fixers/compare/1.2.1...HEAD
+[1.2.1]: https://github.com/elyby/php-code-style/compare/1.2.0...1.2.1
 [1.2.0]: https://github.com/elyby/php-code-style/compare/1.1.0...1.2.0
 [1.1.0]: https://github.com/elyby/php-code-style/compare/1.0.1...1.1.0
 [1.0.1]: https://github.com/elyby/php-code-style/compare/1.0.0...1.0.1
