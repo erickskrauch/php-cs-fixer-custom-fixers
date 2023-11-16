@@ -49,7 +49,7 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
             ',
         ];
 
-        yield 'function, no defaults' => [
+        yield 'function, no defaults, no nulls' => [
             '<?php
             function test(
                 string $a,
@@ -64,7 +64,7 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
             ',
         ];
 
-        yield 'function, one has default' => [
+        yield 'function, one has default, no nulls' => [
             '<?php
             function test(
                 string $a,
@@ -75,6 +75,30 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
             function test(
                 string $a,
                 int $b = 0
+            ): void {}
+            ',
+        ];
+
+        yield 'function, no defaults, nullable types' => [
+            '<?php
+            function test(
+                string $a,
+                ?int   $b = 0
+            ): void {}
+            ',
+            '<?php
+            function test(
+                string $a,
+                ?int $b = 0
+            ): void {}
+            ',
+        ];
+
+        yield 'function, no defaults, nullable types with space' => [
+            '<?php
+            function test(
+                string $a,
+                ?  int $b = 0
             ): void {}
             ',
         ];

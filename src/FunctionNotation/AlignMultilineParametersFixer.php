@@ -74,7 +74,7 @@ function test(
     }
 
     /**
-     * Must run after StatementIndentationFixer, MethodArgumentSpaceFixer
+     * Must run after StatementIndentationFixer, MethodArgumentSpaceFixer, CompactNullableTypehintFixer
      */
     public function getPriority(): int {
         return -10;
@@ -183,10 +183,20 @@ function test(
         }
     }
 
-    private function getFullTypeLength(Tokens $tokens, int $typeIndex): int {
+    private function getFullTypeLength(Tokens $tokens, ?int $typeIndex): int {
         /** @var \PhpCsFixer\Tokenizer\Token $typeToken */
         $typeToken = $tokens[$typeIndex];
         $typeLength = strlen($typeToken->getContent());
+
+        if ($typeToken->isGivenKind(CT::T_NULLABLE_TYPE)) {
+            $possiblyWhitespace = $tokens[$typeIndex + 1];
+            if ($possiblyWhitespace->isWhitespace()) {
+                $typeLength += strlen($possiblyWhitespace->getContent());
+            }
+
+            $realTypeToken = $tokens[$tokens->getNextMeaningfulToken($typeIndex)];
+            $typeLength += strlen($realTypeToken->getContent());
+        }
 
         /** @var \PhpCsFixer\Tokenizer\Token $possiblyReadonlyToken */
         $possiblyReadonlyToken = $tokens[$typeIndex - 2];
