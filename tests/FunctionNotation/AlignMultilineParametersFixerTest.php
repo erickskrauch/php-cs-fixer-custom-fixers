@@ -196,6 +196,40 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
             ) => $int;
             ',
         ];
+
+        yield 'class method, union types, defaults' => [
+            '<?php
+            class Test {
+                public function foo(
+                    string          $string = "string",
+                    int|string|null $int    = 0
+                ): void {}
+            }
+            ',
+            '<?php
+            class Test {
+                public function foo(
+                    string $string = "string",
+                    int|string|null $int = 0
+                ): void {}
+            }
+            ',
+        ];
+
+        yield 'fn, union types, defaults' => [
+            '<?php
+            fn(
+                string          $string = "string",
+                int|string|null $int    = 0
+            ) => $int;
+            ',
+            '<?php
+            fn(
+                string $string = "string",
+                int|string|null $int = 0
+            ) => $int;
+            ',
+        ];
     }
 
     /**

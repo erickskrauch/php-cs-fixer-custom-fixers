@@ -198,6 +198,26 @@ function test(
             $typeLength += strlen($realTypeToken->getContent());
         }
 
+        $currentIndex = $typeIndex;
+        while ($currentIndex !== null) {
+            if ($currentIndex !== $typeIndex) {
+                $unionTypeToken = $tokens[$currentIndex];
+                $typeLength += strlen($unionTypeToken->getContent());
+            }
+
+            $nextIndex = $tokens->getNextMeaningfulToken($currentIndex);
+            if ($nextIndex !== null) {
+                $possiblyUnionTypeToken = $tokens[$nextIndex];
+                if ($possiblyUnionTypeToken->getContent() === '|') {
+                    ++$typeLength;
+                    $currentIndex = $tokens->getNextMeaningfulToken($nextIndex);
+                    continue;
+                }
+            }
+
+            break;
+        }
+
         /** @var \PhpCsFixer\Tokenizer\Token $possiblyReadonlyToken */
         $possiblyReadonlyToken = $tokens[$typeIndex - 2];
         if ($possiblyReadonlyToken->isGivenKind($this->parameterModifiers)) {
