@@ -183,33 +183,27 @@ function test(
         }
     }
 
-    private function getFullTypeLength(Tokens $tokens, ?int $typeIndex): int {
-        /** @var \PhpCsFixer\Tokenizer\Token $typeToken */
-        $typeToken = $tokens[$typeIndex];
-        $typeLength = strlen($typeToken->getContent());
-
-        if ($typeToken->isGivenKind(CT::T_NULLABLE_TYPE)) {
-            $possiblyWhitespace = $tokens[$typeIndex + 1];
-            if ($possiblyWhitespace->isWhitespace()) {
-                $typeLength += strlen($possiblyWhitespace->getContent());
-            }
-
-            $realTypeToken = $tokens[$tokens->getNextMeaningfulToken($typeIndex)];
-            $typeLength += strlen($realTypeToken->getContent());
+    /**
+     * TODO: The declaration might be split across multiple lines.
+     *       In such case we need to find the longest line and return it as the full type length
+     *
+     * @param int $typeIndex points to the beginning of the type
+     */
+    private function getFullTypeLength(Tokens $tokens, int $typeIndex): int {
+        $typeLength = 0;
+        $varNameTokenIndex = $tokens->getNextTokenOfKind($typeIndex, [[T_VARIABLE]]);
+        for ($i = $typeIndex; $i < $varNameTokenIndex - 1; $i++) { // -1 to avoid whitespace between param name and type
+            $typeLength += strlen($tokens[$i]->getContent());
         }
 
-        /** @var \PhpCsFixer\Tokenizer\Token $possiblyReadonlyToken */
         $possiblyReadonlyToken = $tokens[$typeIndex - 2];
         if ($possiblyReadonlyToken->isGivenKind($this->parameterModifiers)) {
-            /** @var \PhpCsFixer\Tokenizer\Token $whitespaceToken */
             $whitespaceToken = $tokens[$typeIndex - 1];
             $typeLength += strlen($possiblyReadonlyToken->getContent() . $whitespaceToken->getContent());
         }
 
-        /** @var \PhpCsFixer\Tokenizer\Token $possiblyPromotionToken */
         $possiblyPromotionToken = $tokens[$typeIndex - 4];
         if ($possiblyPromotionToken->isGivenKind($this->parameterModifiers)) {
-            /** @var \PhpCsFixer\Tokenizer\Token $whitespaceToken */
             $whitespaceToken = $tokens[$typeIndex - 3];
             $typeLength += strlen($possiblyPromotionToken->getContent() . $whitespaceToken->getContent());
         }

@@ -344,6 +344,24 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
             }
             ',
         ];
+        yield 'constructor with union types, mixed whitespace' => [
+            '<?php
+            class Test {
+                public function __construct(
+                    string                               $string = "string",
+                    protected readonly int | string|null $int    = 0
+                ) {}
+            }
+            ',
+            '<?php
+            class Test {
+                public function __construct(
+                    string $string = "string",
+                    protected readonly int | string|null $int = 0
+                ) {}
+            }
+            ',
+        ];
     }
 
     /**
@@ -360,6 +378,61 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
 
     public function provideFalse81Cases(): iterable {
         foreach ($this->provide81TrueCases() as $key => $case) {
+            if (isset($case[1])) {
+                yield $key => [$case[1], $case[0]];
+            } else {
+                yield $key => $case;
+            }
+        }
+    }
+
+    /**
+     * @dataProvider provide82TrueCases
+     * @requires PHP 8.2
+     */
+    public function test82BothTrue(string $expected, ?string $input = null): void {
+        $this->fixer->configure([
+            AlignMultilineParametersFixer::C_VARIABLES => true,
+            AlignMultilineParametersFixer::C_DEFAULTS => true,
+        ]);
+        $this->doTest($expected, $input);
+    }
+
+    public function provide82TrueCases(): iterable {
+        yield 'constructor with union types, mixed whitespace' => [
+            '<?php
+            class Test {
+                public function __construct(
+                    string                                                       $string = "string",
+                    protected readonly int | (JsonSerializable& Stringable)|null $int    = 0
+                ) {}
+            }
+            ',
+            '<?php
+            class Test {
+                public function __construct(
+                    string $string = "string",
+                    protected readonly int | (JsonSerializable& Stringable)|null $int = 0
+                ) {}
+            }
+            ',
+        ];
+    }
+
+    /**
+     * @dataProvider provideFalse82Cases
+     * @requires PHP 8.2
+     */
+    public function test82BothFalse(string $expected, ?string $input = null): void {
+        $this->fixer->configure([
+            AlignMultilineParametersFixer::C_VARIABLES => false,
+            AlignMultilineParametersFixer::C_DEFAULTS => false,
+        ]);
+        $this->doTest($expected, $input);
+    }
+
+    public function provideFalse82Cases(): iterable {
+        foreach ($this->provide82TrueCases() as $key => $case) {
             if (isset($case[1])) {
                 yield $key => [$case[1], $case[0]];
             } else {
