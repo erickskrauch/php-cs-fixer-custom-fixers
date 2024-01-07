@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- `ErickSkrauch/align_multiline_parameters` now correctly handle non-latin types and variables names (but you still shouldn't do that).
+
 ### Fixed
 - Bug #6: `ErickSkrauch/align_multiline_parameters` not working correctly with unions and intersections.
 

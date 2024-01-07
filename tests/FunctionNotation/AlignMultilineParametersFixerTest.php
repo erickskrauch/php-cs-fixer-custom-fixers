@@ -196,6 +196,23 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
             ) => $int;
             ',
         ];
+
+        yield 'non-latin type and variable name' => [
+            '<?php
+            interface Жыве {}
+            function test(
+                string $string   = "string",
+                Жыве   $Беларусь = null
+            ): void {}
+            ',
+            '<?php
+            interface Жыве {}
+            function test(
+                string $string = "string",
+                Жыве $Беларусь = null
+            ): void {}
+            ',
+        ];
     }
 
     /**

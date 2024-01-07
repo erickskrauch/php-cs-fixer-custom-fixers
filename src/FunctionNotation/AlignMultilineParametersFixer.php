@@ -74,7 +74,8 @@ function test(
     }
 
     /**
-     * Must run after StatementIndentationFixer, MethodArgumentSpaceFixer, CompactNullableTypehintFixer
+     * Must run after StatementIndentationFixer, MethodArgumentSpaceFixer, CompactNullableTypehintFixer,
+     *                SingleSpaceAroundConstructFixer
      */
     public function getPriority(): int {
         return -10;
@@ -132,7 +133,7 @@ function test(
                     }
                 }
 
-                $variableNameLength = strlen($argument->getName());
+                $variableNameLength = mb_strlen($argument->getName());
                 if ($variableNameLength > $longestVariableName) {
                     $longestVariableName = $variableNameLength;
                 }
@@ -170,7 +171,7 @@ function test(
                     /** @var \PhpCsFixer\Tokenizer\Token $equalToken */
                     $equalToken = $tokens[$tokens->getNextMeaningfulToken($argument->getNameIndex())];
                     if ($equalToken->getContent() === '=') {
-                        $nameLen = strlen($argument->getName());
+                        $nameLen = mb_strlen($argument->getName());
                         $whitespaceIndex = $argument->getNameIndex() + 1;
                         if ($this->configuration[self::C_DEFAULTS] === true) {
                             $tokens->ensureWhitespaceAtIndex($whitespaceIndex, 0, str_repeat(' ', $longestVariableName - $nameLen + 1));
@@ -193,7 +194,7 @@ function test(
         $typeLength = 0;
         $varNameTokenIndex = $tokens->getNextTokenOfKind($typeIndex, [[T_VARIABLE]]);
         for ($i = $typeIndex; $i < $varNameTokenIndex - 1; $i++) { // -1 to avoid whitespace between param name and type
-            $typeLength += strlen($tokens[$i]->getContent());
+            $typeLength += mb_strlen($tokens[$i]->getContent());
         }
 
         $possiblyReadonlyToken = $tokens[$typeIndex - 2];
