@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 ### Fixed
-- Bug #5: `ErickSkrauch/align_multiline_parameters` not working correctly with unions and intersections.
+- Bug #6: `ErickSkrauch/align_multiline_parameters` not working correctly with unions and intersections.
 
 ## [1.2.1] - 2023-11-16
 ### Fixed
