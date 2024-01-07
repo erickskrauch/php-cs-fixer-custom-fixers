@@ -253,6 +253,27 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
         }
     }
 
+    public function testNoWhitespace(): void {
+        $this->fixer->configure([
+            AlignMultilineParametersFixer::C_VARIABLES => true,
+            AlignMultilineParametersFixer::C_DEFAULTS => true,
+        ]);
+        $this->doTest(
+            '<?php
+            function test(
+                string $string = "string",
+                int    $int    = 0
+            ): void {}
+            ',
+            '<?php
+            function test(
+                string$string = "string",
+                int$int = 0
+            ): void {}
+            ',
+        );
+    }
+
     /**
      * @dataProvider provide80TrueCases
      * @requires PHP 8.0

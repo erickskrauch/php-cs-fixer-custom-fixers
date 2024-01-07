@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Fixed
 - Bug #6: `ErickSkrauch/align_multiline_parameters` not working correctly with unions and intersections.
+- `ErickSkrauch/align_multiline_parameters` inserted a space between the type and the param name in the wrong position when there were no whitespace between them.
 
 ## [1.2.1] - 2023-11-16
 ### Fixed

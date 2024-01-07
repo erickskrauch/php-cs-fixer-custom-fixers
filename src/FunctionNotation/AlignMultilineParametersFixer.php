@@ -12,6 +12,7 @@ use PhpCsFixer\FixerConfiguration\FixerOptionBuilder;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
+use PhpCsFixer\Tokenizer\Analyzer\Analysis\TypeAnalysis;
 use PhpCsFixer\Tokenizer\Analyzer\FunctionsAnalyzer;
 use PhpCsFixer\Tokenizer\Analyzer\WhitespacesAnalyzer;
 use PhpCsFixer\Tokenizer\CT;
@@ -127,7 +128,7 @@ function test(
                 $typeAnalysis = $argument->getTypeAnalysis();
                 if ($typeAnalysis) {
                     $hasAtLeastOneTypedArgument = true;
-                    $typeLength = $this->getFullTypeLength($tokens, $typeAnalysis->getStartIndex());
+                    $typeLength = $this->getFullTypeLength($tokens, $typeAnalysis);
                     if ($typeLength > $longestType) {
                         $longestType = $typeLength;
                     }
@@ -140,13 +141,31 @@ function test(
             }
 
             $argsIndent = WhitespacesAnalyzer::detectIndent($tokens, $i) . $this->whitespacesConfig->getIndent();
-            foreach ($arguments as $argument) {
+            // Since we perform insertion of new tokens in this loop, if we go sequentially,
+            // at each new iteration the token indices will shift due to the addition of new whitespaces.
+            // If we go from the end, this problem will not occur.
+            foreach (array_reverse($arguments) as $argument) {
+                if ($this->configuration[self::C_DEFAULTS] !== null) {
+                    // Can't use $argument->hasDefault() because it's null when it's default for a type (e.g. 0 for int)
+                    $equalToken = $tokens[$tokens->getNextMeaningfulToken($argument->getNameIndex())];
+                    if ($equalToken->getContent() === '=') {
+                        $nameLen = mb_strlen($argument->getName());
+                        $whitespaceIndex = $argument->getNameIndex() + 1;
+                        if ($this->configuration[self::C_DEFAULTS] === true) {
+                            $tokens->ensureWhitespaceAtIndex($whitespaceIndex, 0, str_repeat(' ', $longestVariableName - $nameLen + 1));
+                        } else {
+                            $tokens->ensureWhitespaceAtIndex($whitespaceIndex, 0, ' ');
+                        }
+                    }
+                }
+
                 if ($this->configuration[self::C_VARIABLES] !== null) {
                     $whitespaceIndex = $argument->getNameIndex() - 1;
                     if ($this->configuration[self::C_VARIABLES] === true) {
                         $typeLen = 0;
-                        if ($argument->getTypeAnalysis() !== null) {
-                            $typeLen = $this->getFullTypeLength($tokens, $argument->getTypeAnalysis()->getStartIndex());
+                        $typeAnalysis = $argument->getTypeAnalysis();
+                        if ($typeAnalysis !== null) {
+                            $typeLen = $this->getFullTypeLength($tokens, $typeAnalysis);
                         }
 
                         $appendix = str_repeat(' ', $longestType - $typeLen + (int)$hasAtLeastOneTypedArgument);
@@ -163,22 +182,7 @@ function test(
                         }
                     }
 
-                    $tokens->ensureWhitespaceAtIndex($whitespaceIndex, 0, $whitespaceToken);
-                }
-
-                if ($this->configuration[self::C_DEFAULTS] !== null) {
-                    // Can't use $argument->hasDefault() because it's null when it's default for a type (e.g. 0 for int)
-                    /** @var \PhpCsFixer\Tokenizer\Token $equalToken */
-                    $equalToken = $tokens[$tokens->getNextMeaningfulToken($argument->getNameIndex())];
-                    if ($equalToken->getContent() === '=') {
-                        $nameLen = mb_strlen($argument->getName());
-                        $whitespaceIndex = $argument->getNameIndex() + 1;
-                        if ($this->configuration[self::C_DEFAULTS] === true) {
-                            $tokens->ensureWhitespaceAtIndex($whitespaceIndex, 0, str_repeat(' ', $longestVariableName - $nameLen + 1));
-                        } else {
-                            $tokens->ensureWhitespaceAtIndex($whitespaceIndex, 0, ' ');
-                        }
-                    }
+                    $tokens->ensureWhitespaceAtIndex($whitespaceIndex, 1, $whitespaceToken);
                 }
             }
         }
@@ -187,25 +191,22 @@ function test(
     /**
      * TODO: The declaration might be split across multiple lines.
      *       In such case we need to find the longest line and return it as the full type length
-     *
-     * @param int $typeIndex points to the beginning of the type
      */
-    private function getFullTypeLength(Tokens $tokens, int $typeIndex): int {
+    private function getFullTypeLength(Tokens $tokens, TypeAnalysis $typeAnalysis): int {
         $typeLength = 0;
-        $varNameTokenIndex = $tokens->getNextTokenOfKind($typeIndex, [[T_VARIABLE]]);
-        for ($i = $typeIndex; $i < $varNameTokenIndex - 1; $i++) { // -1 to avoid whitespace between param name and type
+        for ($i = $typeAnalysis->getStartIndex(); $i <= $typeAnalysis->getEndIndex(); $i++) {
             $typeLength += mb_strlen($tokens[$i]->getContent());
         }
 
-        $possiblyReadonlyToken = $tokens[$typeIndex - 2];
+        $possiblyReadonlyToken = $tokens[$typeAnalysis->getStartIndex() - 2];
         if ($possiblyReadonlyToken->isGivenKind($this->parameterModifiers)) {
-            $whitespaceToken = $tokens[$typeIndex - 1];
+            $whitespaceToken = $tokens[$typeAnalysis->getStartIndex() - 1];
             $typeLength += strlen($possiblyReadonlyToken->getContent() . $whitespaceToken->getContent());
         }
 
-        $possiblyPromotionToken = $tokens[$typeIndex - 4];
+        $possiblyPromotionToken = $tokens[$typeAnalysis->getStartIndex() - 4];
         if ($possiblyPromotionToken->isGivenKind($this->parameterModifiers)) {
-            $whitespaceToken = $tokens[$typeIndex - 3];
+            $whitespaceToken = $tokens[$typeAnalysis->getStartIndex() - 3];
             $typeLength += strlen($possiblyPromotionToken->getContent() . $whitespaceToken->getContent());
         }
 
