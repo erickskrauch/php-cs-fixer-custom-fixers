@@ -24,6 +24,7 @@ final class Fixers implements IteratorAggregate {
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($finder as $file) {
             // -4 is set to cut ".php" extension
+            /** @var class-string<FixerInterface> $class */
             $class = __NAMESPACE__ . str_replace('/', '\\', mb_substr($file->getPathname(), mb_strlen(__DIR__), -4));
             if (!class_exists($class)) {
                 continue;

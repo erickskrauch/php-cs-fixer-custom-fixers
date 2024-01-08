@@ -17,6 +17,11 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use SplFileInfo;
 
+/**
+ * @property array{
+ *     keep_on_own_line: bool,
+ * } $configuration
+ */
 final class MultilineIfStatementBracesFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface {
 
     /**
@@ -74,7 +79,6 @@ if ($condition1 == true
             }
 
             $closingBraceIndex = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_PARENTHESIS_BRACE, $openBraceIndex);
-            /** @var \PhpCsFixer\Tokenizer\Token $statementBeforeClosingBrace */
             $statementBeforeClosingBrace = $tokens[$closingBraceIndex - 1];
             if ($keepOnOwnLine) {
                 if (!$statementBeforeClosingBrace->isWhitespace()

@@ -23,6 +23,9 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{0: string, 1?: string}>
+     */
     public function provideTrueCases(): iterable {
         yield 'empty function' => [
             '<?php
@@ -226,6 +229,9 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{0: string, 1?: string}>
+     */
     public function provideFalseCases(): iterable {
         foreach ($this->provideTrueCases() as $key => $case) {
             if (isset($case[1])) {
@@ -247,6 +253,9 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{string}>
+     */
     public function provideNullCases(): iterable {
         foreach ($this->provideFalseCases() as $key => $case) {
             yield $key => [$case[0]];
@@ -286,6 +295,9 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{0: string, 1?: string}>
+     */
     public function provide80TrueCases(): iterable {
         yield 'constructor promotion, defaults' => [
             '<?php
@@ -319,6 +331,9 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{0: string, 1?: string}>
+     */
     public function provideFalse80Cases(): iterable {
         foreach ($this->provide80TrueCases() as $key => $case) {
             if (isset($case[1])) {
@@ -341,6 +356,9 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{0: string, 1?: string}>
+     */
     public function provide81TrueCases(): iterable {
         yield 'constructor promotion, readonly, defaults' => [
             '<?php
@@ -414,6 +432,9 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{0: string, 1?: string}>
+     */
     public function provideFalse81Cases(): iterable {
         foreach ($this->provide81TrueCases() as $key => $case) {
             if (isset($case[1])) {
@@ -436,6 +457,9 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{0: string, 1?: string}>
+     */
     public function provide82TrueCases(): iterable {
         yield 'constructor with union types, mixed whitespace' => [
             '<?php
@@ -469,6 +493,9 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{0: string, 1?: string}>
+     */
     public function provideFalse82Cases(): iterable {
         foreach ($this->provide82TrueCases() as $key => $case) {
             if (isset($case[1])) {

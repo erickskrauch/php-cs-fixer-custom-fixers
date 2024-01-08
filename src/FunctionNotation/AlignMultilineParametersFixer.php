@@ -20,6 +20,12 @@ use PhpCsFixer\Tokenizer\Tokens;
 use PhpCsFixer\Tokenizer\TokensAnalyzer;
 use SplFileInfo;
 
+/**
+ * @property array{
+ *     variables: bool|null,
+ *     defaults: bool|null,
+ * } $configuration
+ */
 final class AlignMultilineParametersFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface {
 
     /**
@@ -31,6 +37,9 @@ final class AlignMultilineParametersFixer extends AbstractFixer implements Confi
      */
     public const C_DEFAULTS = 'defaults';
 
+    /**
+     * @var list<int>
+     */
     private array $parameterModifiers;
 
     public function __construct() {
@@ -117,7 +126,7 @@ function test(
 
             /** @var \PhpCsFixer\Tokenizer\Analyzer\Analysis\ArgumentAnalysis[] $arguments */
             $arguments = $functionsAnalyzer->getFunctionArguments($tokens, $i);
-            if (empty($arguments)) {
+            if ($arguments === []) {
                 continue;
             }
 
@@ -126,7 +135,7 @@ function test(
             $hasAtLeastOneTypedArgument = false;
             foreach ($arguments as $argument) {
                 $typeAnalysis = $argument->getTypeAnalysis();
-                if ($typeAnalysis) {
+                if ($typeAnalysis !== null) {
                     $hasAtLeastOneTypedArgument = true;
                     $typeLength = $this->getFullTypeLength($tokens, $typeAnalysis);
                     if ($typeLength > $longestType) {

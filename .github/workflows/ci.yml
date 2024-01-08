@@ -63,6 +63,10 @@ jobs:
         if: matrix.lint
         run: vendor/bin/php-cs-fixer fix --dry-run --format=checkstyle | cs2pr
 
+      - name: PHPStan
+        if: matrix.lint
+        run: vendor/bin/phpstan analyse
+
       # https://github.com/marketplace/actions/setup-php-action#phpunit
       - name: Setup problem matchers for PHPUnit
         run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"

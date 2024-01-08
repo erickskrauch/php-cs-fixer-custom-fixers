@@ -1,0 +1,9 @@
+includes:
+  - vendor/phpstan/phpstan/conf/bleedingEdge.neon
+
+parameters:
+  level: 7
+  paths:
+    - src
+    - tests
+  tipsOfTheDay: false

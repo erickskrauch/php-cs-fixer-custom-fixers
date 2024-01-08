@@ -19,6 +19,9 @@ final class LineBreakAfterStatementsFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{0: string, 1?: string}>
+     */
     public function provideFixCases(): iterable {
         // Simple cases
         yield [

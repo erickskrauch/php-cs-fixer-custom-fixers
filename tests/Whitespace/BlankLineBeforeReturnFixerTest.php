@@ -31,6 +31,9 @@ final class BlankLineBeforeReturnFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{0: string, 1?: string}>
+     */
     public function provideFixCases(): iterable {
         yield [
             '$a = $a;
@@ -205,6 +208,9 @@ return $c;',
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{string, string}>
+     */
     public function provideMessyWhitespacesCases(): iterable {
         yield [
             "<?php\r\n\$a = \$a;\r\n\r\nreturn \$a;",

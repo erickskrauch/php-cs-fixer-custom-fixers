@@ -61,6 +61,9 @@ $className = Baz::className();
         }
     }
 
+    /**
+     * @return array{int, int}|null
+     */
     private function getReplaceCandidate(Tokens $tokens, int $index): ?array {
         if (!$tokens[$index]->isGivenKind(T_STRING)) {
             return null;

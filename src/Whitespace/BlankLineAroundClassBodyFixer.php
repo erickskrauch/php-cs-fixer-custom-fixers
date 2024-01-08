@@ -24,6 +24,11 @@ use SplFileInfo;
  * and the first meaningful statement. And then this fixer restores those spaces back.
  *
  * That is the reason, why you always see a "braces, Ely/blank_line_around_class_body" in verbose output.
+ *
+ * @property array{
+ *     blank_lines_count: non-negative-int,
+ *     apply_to_anonymous_classes: bool,
+ * } $configuration
  */
 final class BlankLineAroundClassBodyFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface {
 
@@ -101,11 +106,9 @@ new class extends Foo {
             }
 
             $startBraceIndex = $tokens->getNextTokenOfKind($index, ['{']);
-            /** @var Token $nextAfterBraceToken */
             $nextAfterBraceToken = $tokens[$startBraceIndex + 1];
             if ($nextAfterBraceToken->isWhitespace()) {
                 $nextStatementIndex = $tokens->getNextMeaningfulToken($startBraceIndex);
-                /** @var Token $nextStatementToken */
                 $nextStatementToken = $tokens[$nextStatementIndex];
                 // Traits should be placed right after a class opening brace
                 if ($nextStatementToken->getContent() !== 'use') {

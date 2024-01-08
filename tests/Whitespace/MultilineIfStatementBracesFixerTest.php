@@ -19,6 +19,9 @@ final class MultilineIfStatementBracesFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{string, string}>
+     */
     public function provideFixCases(): iterable {
         yield 'simple' => [
             '<?php
@@ -55,6 +58,9 @@ function foo() {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{string, string}>
+     */
     public function provideInvertedFixCases(): iterable {
         foreach ($this->provideFixCases() as $name => $case) {
             yield $name => [$case[1], $case[0]];

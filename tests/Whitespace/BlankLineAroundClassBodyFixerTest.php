@@ -9,18 +9,24 @@ use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use PhpCsFixer\WhitespacesFixerConfig;
 
 /**
- * @author ErickSkrauch <erickskrauch@ely.by>
- *
+ * @property \ErickSkrauch\PhpCsFixer\Whitespace\BlankLineAroundClassBodyFixer $fixer
  * @covers \ErickSkrauch\PhpCsFixer\Whitespace\BlankLineAroundClassBodyFixer
  */
 final class BlankLineAroundClassBodyFixerTest extends AbstractFixerTestCase {
 
+    /**
+     * @var array<string, mixed>
+     */
     private static $configurationDoNotApplyForAnonymousClasses = ['apply_to_anonymous_classes' => false];
 
+    /**
+     * @var array<string, mixed>
+     */
     private static $configurationTwoEmptyLines = ['blank_lines_count' => 2];
 
     /**
      * @dataProvider provideFixCases
+     * @phpstan-param array<string, mixed> $configuration
      */
     public function testFix(string $expected, ?string $input = null, array $configuration = null): void {
         if ($configuration !== null) {
@@ -30,6 +36,9 @@ final class BlankLineAroundClassBodyFixerTest extends AbstractFixerTestCase {
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{0: string, 1?: string, 2?: array<string, mixed>}>
+     */
     public function provideFixCases(): iterable {
         yield [
             '<?php
@@ -313,13 +322,15 @@ $class = new class extends \Foo {
      * @dataProvider provideMessyWhitespacesCases
      */
     public function testMessyWhitespaces(string $expected, ?string $input = null): void {
-        /** @var \PhpCsFixer\Fixer\WhitespacesAwareFixerInterface $fixer */
         $fixer = $this->fixer;
         $fixer->setWhitespacesConfig(new WhitespacesFixerConfig("\t", "\r\n"));
 
         $this->doTest($expected, $input);
     }
 
+    /**
+     * @return iterable<array{string, string}>
+     */
     public function provideMessyWhitespacesCases(): iterable {
         yield [
             "<?php\nclass Foo\n{\r\n\r\n    public function bar() {}\r\n\r\n}",
