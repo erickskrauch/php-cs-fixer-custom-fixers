@@ -85,7 +85,7 @@ function test(
 
     /**
      * Must run after StatementIndentationFixer, MethodArgumentSpaceFixer, CompactNullableTypehintFixer,
-     *                SingleSpaceAroundConstructFixer
+     *                SingleSpaceAroundConstructFixer, TypesSpacesFixer
      */
     public function getPriority(): int {
         return -10;
@@ -197,10 +197,6 @@ function test(
         }
     }
 
-    /**
-     * TODO: The declaration might be split across multiple lines.
-     *       In such case we need to find the longest line and return it as the full type length
-     */
     private function getFullTypeLength(Tokens $tokens, TypeAnalysis $typeAnalysis): int {
         $typeLength = 0;
         for ($i = $typeAnalysis->getStartIndex(); $i <= $typeAnalysis->getEndIndex(); $i++) {
