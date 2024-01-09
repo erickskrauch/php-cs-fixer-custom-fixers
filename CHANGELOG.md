@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Fixed
+- Bug #8: `ErickSkrauch/align_multiline_parameters` produces new line for promoted properties without any types.
 
 ## [1.2.2] - 2024-01-07
 ### Added

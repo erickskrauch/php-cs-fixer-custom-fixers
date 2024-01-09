@@ -299,7 +299,25 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
      * @return iterable<array{0: string, 1?: string}>
      */
     public function provide80TrueCases(): iterable {
-        yield 'constructor promotion, defaults' => [
+        yield 'constructor promotion without types, defaults' => [
+            '<?php
+            class Test {
+                public function __construct(
+                    public    $string = "string",
+                    protected $bool   = true
+                ) {}
+            }
+            ',
+            '<?php
+            class Test {
+                public function __construct(
+                    public $string = "string",
+                    protected $bool = true
+                ) {}
+            }
+            ',
+        ];
+        yield 'constructor promotion with types, defaults' => [
             '<?php
             class Test {
                 public function __construct(
@@ -342,6 +360,34 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
                 yield $key => $case;
             }
         }
+    }
+
+    /**
+     * @requires PHP 8.0
+     */
+    public function testNoWhitespaceAroundPromotion(): void {
+        $this->fixer->configure([
+            AlignMultilineParametersFixer::C_VARIABLES => true,
+            AlignMultilineParametersFixer::C_DEFAULTS => true,
+        ]);
+        $this->doTest(
+            '<?php
+            class Test {
+                public function __construct(
+                    public    $string = "string",
+                    protected $bool   = true
+                ) {}
+            }
+            ',
+            '<?php
+            class Test {
+                public function __construct(
+                    public$string = "string",
+                    protected$bool = true
+                ) {}
+            }
+            ',
+        );
     }
 
     /**
