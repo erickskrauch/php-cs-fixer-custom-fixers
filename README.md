@@ -42,8 +42,8 @@ Forces aligned or not aligned multiline function parameters:
 -     int $index = 0,
 -     $arg = 'no type',
 -     ...$variadic,
-+     int    $index  = 0,
-+            $arg    = 'no type',
++     int    $index    = 0,
++            $arg      = 'no type',
 +         ...$variadic
   ): void {}
 ```
