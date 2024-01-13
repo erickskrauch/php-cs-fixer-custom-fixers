@@ -30,6 +30,7 @@ use SplFileInfo;
  *     typeLength: non-negative-int,
  *     nameLength: positive-int,
  *     nameIndex: int,
+ *     isVariadic: bool,
  * }
  */
 final class AlignMultilineParametersFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface {
@@ -83,7 +84,8 @@ function test(
 
     /**
      * Must run after StatementIndentationFixer, MethodArgumentSpaceFixer, CompactNullableTypehintFixer,
-     *                SingleSpaceAroundConstructFixer, TypesSpacesFixer
+     *                SingleSpaceAroundConstructFixer, TypesSpacesFixer, UnaryOperatorSpacesFixer,
+     *                FunctionTypehintSpaceFixer, TypeDeclarationSpacesFixer
      */
     public function getPriority(): int {
         return -10;
@@ -131,6 +133,8 @@ function test(
             $longestType = 0;
             $longestVariableName = 0;
             $hasAtLeastOneTypedArgument = false;
+            /** @var bool|null $isVariadicArgTypeLong */
+            $isVariadicArgTypeLong = null;
             /** @var list<DeclarationAnalysis> $analysedArguments */
             $analysedArguments = [];
             foreach ($arguments as $argument) {
@@ -146,6 +150,10 @@ function test(
 
                 if ($declarationAnalysis['nameLength'] > $longestVariableName) {
                     $longestVariableName = $declarationAnalysis['nameLength'];
+                }
+
+                if ($declarationAnalysis['isVariadic']) {
+                    $isVariadicArgTypeLong = $longestType === $declarationAnalysis['typeLength'];
                 }
 
                 $analysedArguments[] = $declarationAnalysis;
@@ -170,9 +178,27 @@ function test(
                 }
 
                 if ($this->configuration[self::C_VARIABLES] !== null) {
-                    $whitespaceIndex = $argument['nameIndex'] - 1;
+                    if ($argument['isVariadic']) {
+                        $whitespaceIndex = $tokens->getPrevMeaningfulToken($argument['nameIndex']) - 1;
+                    } else {
+                        $whitespaceIndex = $argument['nameIndex'] - 1;
+                    }
+
                     if ($this->configuration[self::C_VARIABLES] === true) {
-                        $appendix = str_repeat(' ', $longestType - $argument['typeLength'] + (int)$hasAtLeastOneTypedArgument);
+                        $alignLength = $longestType - $argument['typeLength'] + (int)$hasAtLeastOneTypedArgument;
+                        if ($isVariadicArgTypeLong !== null) {
+                            if ($isVariadicArgTypeLong) {
+                                if (!$argument['isVariadic']) {
+                                    $alignLength += 3;
+                                }
+                            } else {
+                                if ($argument['isVariadic']) {
+                                    $alignLength -= 3;
+                                }
+                            }
+                        }
+
+                        $appendix = str_repeat(' ', $alignLength);
                         if ($argument['typeLength'] > 0) {
                             $whitespaceToken = $appendix;
                         } else {
@@ -197,6 +223,15 @@ function test(
         $searchIndex = $nameIndex;
         $includeNextWhitespace = false;
         $typeLength = 0;
+
+        $isVariadic = false;
+        $variadicTokenIndex = $tokens->getPrevMeaningfulToken($searchIndex);
+        $variadicToken = $tokens[$variadicTokenIndex];
+        if ($variadicToken->isGivenKind(T_ELLIPSIS)) {
+            $isVariadic = true;
+            $searchIndex = $variadicTokenIndex;
+        }
+
         if ($typeAnalysis !== null) {
             $searchIndex = $typeAnalysis->getStartIndex();
             $includeNextWhitespace = true;
@@ -237,6 +272,7 @@ function test(
             'typeLength' => $typeLength,
             'nameLength' => $nameLength,
             'nameIndex' => $nameIndex,
+            'isVariadic' => $isVariadic,
         ];
     }
 

@@ -216,6 +216,51 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
             ): void {}
             ',
         ];
+
+        yield 'variadic parameter (short)' => [
+            '<?php
+            function test(
+                Stringable $string,
+                int     ...$params
+            ): void {}
+            ',
+            '<?php
+            function test(
+                Stringable $string,
+                int ...$params
+            ): void {}
+            ',
+        ];
+
+        yield 'variadic parameter (long)' => [
+            '<?php
+            function test(
+                Stringable           $string,
+                DateTimeImmutable ...$params
+            ): void {}
+            ',
+            '<?php
+            function test(
+                Stringable $string,
+                DateTimeImmutable ...$params
+            ): void {}
+            ',
+        ];
+
+        yield 'variadic parameter (untyped)' => [
+            '<?php
+            function test(
+                Stringable $string,
+                        ...$params
+            ): void {}
+            ',
+            '<?php
+            function test(
+                Stringable $string,
+                ...$params
+            ): void {}
+            ',
+        ];
     }
 
     /**
