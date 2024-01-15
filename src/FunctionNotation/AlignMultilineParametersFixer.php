@@ -104,6 +104,12 @@ function test(
         ]);
     }
 
+    /**
+     * TODO: This fixer can be reimplemented using a simpler idea:
+     *       we need to find the position of the farthest token $ and =, and then align all other tokens to them.
+     *       The current implementation strongly relies on the fact, that the code will be well written and some
+     *       additional fixer like TypeDeclarationSpacesFixer will be used as well
+     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void {
         // There is nothing to do
         if ($this->configuration[self::C_VARIABLES] === null && $this->configuration[self::C_DEFAULTS] === null) {
@@ -133,8 +139,6 @@ function test(
             $longestType = 0;
             $longestVariableName = 0;
             $hasAtLeastOneTypedArgument = false;
-            /** @var bool|null $isVariadicArgTypeLong */
-            $isVariadicArgTypeLong = null;
             /** @var list<DeclarationAnalysis> $analysedArguments */
             $analysedArguments = [];
             foreach ($arguments as $argument) {
@@ -153,7 +157,16 @@ function test(
                 }
 
                 if ($declarationAnalysis['isVariadic']) {
-                    $isVariadicArgTypeLong = $longestType === $declarationAnalysis['typeLength'];
+                    // We want to do the alignment on the $ symbol.
+                    // If none of the arguments has a type or the longest type is too short,
+                    // the variadic argument will not be able to take the correct position.
+                    // So we extend the type length so that all variables are aligned in a column by the $ symbol
+                    $longestTypeDelta = $longestType - $declarationAnalysis['typeLength'];
+                    if ($longestType === $declarationAnalysis['typeLength']) {
+                        $longestType += 3;
+                    } elseif ($longestTypeDelta < 3) { // Ensure there is enough space for "..."
+                        $longestType += 3 - $longestTypeDelta - (int)($declarationAnalysis['typeLength'] === 0);
+                    }
                 }
 
                 $analysedArguments[] = $declarationAnalysis;
@@ -186,16 +199,8 @@ function test(
 
                     if ($this->configuration[self::C_VARIABLES] === true) {
                         $alignLength = $longestType - $argument['typeLength'] + (int)$hasAtLeastOneTypedArgument;
-                        if ($isVariadicArgTypeLong !== null) {
-                            if ($isVariadicArgTypeLong) {
-                                if (!$argument['isVariadic']) {
-                                    $alignLength += 3;
-                                }
-                            } else {
-                                if ($argument['isVariadic']) {
-                                    $alignLength -= 3;
-                                }
-                            }
+                        if ($argument['isVariadic']) {
+                            $alignLength -= 3; // 3 is the length of "..."
                         }
 
                         $appendix = str_repeat(' ', $alignLength);

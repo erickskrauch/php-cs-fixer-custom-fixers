@@ -232,6 +232,21 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
             ',
         ];
 
+        yield 'variadic parameter (short, edge case)' => [
+            '<?php
+            function test(
+                float  $float,
+                int ...$params
+            ): void {}
+            ',
+            '<?php
+            function test(
+                float $float,
+                int ...$params
+            ): void {}
+            ',
+        ];
+
         yield 'variadic parameter (long)' => [
             '<?php
             function test(
@@ -257,6 +272,40 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
             '<?php
             function test(
                 Stringable $string,
+                ...$params
+            ): void {}
+            ',
+        ];
+
+        yield 'variadic parameter (untyped, edge case 1)' => [
+            '<?php
+            interface A {}
+            function test(
+                A  $a,
+                ...$params
+            ): void {}
+            ',
+            '<?php
+            interface A {}
+            function test(
+                A $a,
+                ...$params
+            ): void {}
+            ',
+        ];
+
+        yield 'variadic parameter (untyped, edge case 2)' => [
+            '<?php
+            interface A {}
+            function test(
+                   $a,
+                ...$params
+            ): void {}
+            ',
+            '<?php
+            interface A {}
+            function test(
+                $a,
                 ...$params
             ): void {}
             ',
