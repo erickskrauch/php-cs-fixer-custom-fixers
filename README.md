@@ -154,6 +154,26 @@ Ensures that multiline if statement body curly brace placed on the right line.
 * `keep_on_own_line` - should this place closing bracket on its own line? If it's set to `false`, than
   curly bracket will be placed right after the last condition statement. **Default**: `true`.
 
+### `ErickSkrauch/ordered_overrides`
+
+Overridden and implemented methods must be sorted in the same order as they are defined in parent classes.
+
+```diff
+--- Original
++++ New
+@@ @@
+ <?php
+ class Foo implements Serializable {
+
+-    public function unserialize($data) {}
++    public function serialize() {}
+
+-    public function serialize() {}
++    public function unserialize($data) {}
+
+ }
+```
+
 ### `ErickSkrauch/remove_class_name_method_usages` (Yii2)
 
 Replaces Yii2 [`BaseObject::className()`](https://github.com/yiisoft/yii2/blob/e53fc0ded1/framework/base/BaseObject.php#L84)
