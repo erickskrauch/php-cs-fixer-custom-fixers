@@ -29,6 +29,16 @@ return (new \PhpCsFixer\Config())
 
 ## Fixers
 
+Table of contents:
+
+* [`ErickSkrauch/align_multiline_parameters`](#erickskrauchalign_multiline_parameters) - Align multiline function params (or remove alignment).
+* [`ErickSkrauch/blank_line_around_class_body`](#erickskrauchblank_line_around_class_body) - Add space inside class body.
+* [`ErickSkrauch/blank_line_before_return`](#erickskrauchblank_line_before_return) - Add blank line before `return`.
+* [`ErickSkrauch/line_break_after_statements`](#erickskrauchline_break_after_statements) - Add blank line after control structures.
+* [`ErickSkrauch/multiline_if_statement_braces`](#erickskrauchmultiline_if_statement_braces) - Fix brace position for multiline `if` statements.
+* [`ErickSkrauch/ordered_overrides`](#erickskrauchordered_overrides) - Sort overridden methods.
+* [`ErickSkrauch/remove_class_name_method_usages`](#erickskrauchremove_class_name_method_usages-yii2) - Replace `::className()` with `:class` (Yii2).
+
 ### `ErickSkrauch/align_multiline_parameters`
 
 Forces aligned or not aligned multiline function parameters:
