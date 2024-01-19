@@ -213,6 +213,55 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
             };
             ',
         ];
+
+        yield 'extends unknown class' => [
+            '<?php
+            class A extends UnknownClass {
+                public function baz() : void{}
+                public function foo(): void {}
+            }
+            ',
+        ];
+
+        yield 'mix of other class elements' => [
+            '<?php
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceA {
+                public function foo(): void {}
+                private string $a;
+                public function nonInterface(): void {}
+                public const B = 321;
+                public function bar(): void {}
+                use SomeTrait;
+                public function qux(): void {}
+            }
+            ',
+            '<?php
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceA {
+                public function bar(): void {}
+                private string $a;
+                public function nonInterface(): void {}
+                public const B = 321;
+                public function foo(): void {}
+                use SomeTrait;
+                public function qux(): void {}
+            }
+            ',
+        ];
+
+        yield 'use the order of the deepest parent ' => [
+            '<?php
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceAReverseOrder {
+                public function foo(): void {}
+                public function bar(): void {}
+            }
+            ',
+            '<?php
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceAReverseOrder {
+                public function bar(): void {}
+                public function foo(): void {}
+            }
+            ',
+        ];
     }
 
     protected function createFixer(): AbstractFixer {

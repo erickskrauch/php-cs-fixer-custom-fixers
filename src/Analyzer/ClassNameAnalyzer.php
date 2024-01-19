@@ -8,8 +8,6 @@ use PhpCsFixer\Tokenizer\Analyzer\NamespacesAnalyzer;
 use PhpCsFixer\Tokenizer\Analyzer\NamespaceUsesAnalyzer;
 use PhpCsFixer\Tokenizer\Tokens;
 
-// TODO: better naming
-// TODO: cover with tests
 final class ClassNameAnalyzer {
 
     private NamespacesAnalyzer $namespacesAnalyzer;
@@ -58,13 +56,8 @@ final class ClassNameAnalyzer {
         $className = '';
         $index = $classNameStart;
         do {
-            $token = $tokens[$index];
-            if ($token->isWhitespace()) {
-                continue;
-            }
-
-            $className .= $token->getContent();
-        } while ($tokens[++$index]->isGivenKind([T_STRING, T_NS_SEPARATOR, T_WHITESPACE]));
+            $className .= $tokens[$index]->getContent();
+        } while ($tokens[++$index]->isGivenKind([T_STRING, T_NS_SEPARATOR]));
 
         return $className;
     }

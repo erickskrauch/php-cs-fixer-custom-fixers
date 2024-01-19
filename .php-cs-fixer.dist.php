@@ -2,7 +2,9 @@
 declare(strict_types=1);
 
 $finder = PhpCsFixer\Finder::create()
-    ->in(__DIR__);
+    ->in(__DIR__)
+    ->exclude('tests/ClassNotation/_data')
+;
 
 return Ely\CS\Config::create([
     // Disable "parameters" and "match" to keep compatibility with PHP 7.4

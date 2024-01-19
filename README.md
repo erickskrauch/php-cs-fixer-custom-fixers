@@ -168,6 +168,8 @@ Ensures that multiline if statement body curly brace placed on the right line.
 
 Overridden and implemented methods must be sorted in the same order as they are defined in parent classes.
 
+**Warning**: this fixer is implemented against the PHP-CS-Fixer principle and relies on runtime, classes autoloading and reflection. If dependencies are missing or the autoloader isn't configured correctly, the fixer will not be able to discover the order of methods in parents.
+
 ```diff
 --- Original
 +++ New

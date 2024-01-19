@@ -4,21 +4,19 @@ declare(strict_types=1);
 namespace ErickSkrauch\PhpCsFixer\ClassNotation;
 
 use ErickSkrauch\PhpCsFixer\AbstractFixer;
+use ErickSkrauch\PhpCsFixer\Analyzer\ClassElementsAnalyzer;
 use ErickSkrauch\PhpCsFixer\Analyzer\ClassNameAnalyzer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;
 use PhpCsFixer\Tokenizer\Tokens;
 use ReflectionClass;
+use ReflectionException;
 use SplFileInfo;
 use SplStack;
 
 /**
- * @phpstan-type MethodData array{
- *     name: string,
- *     start: int,
- *     end: int,
- * }
+ * @phpstan-import-type AnalyzedClassElement from \ErickSkrauch\PhpCsFixer\Analyzer\ClassElementsAnalyzer
  */
 final class OrderedOverridesFixer extends AbstractFixer {
 
@@ -27,9 +25,15 @@ final class OrderedOverridesFixer extends AbstractFixer {
      */
     private ClassNameAnalyzer $classNameAnalyzer;
 
+    /**
+     * @readonly
+     */
+    private ClassElementsAnalyzer $classElementsAnalyzer;
+
     public function __construct() {
         parent::__construct();
         $this->classNameAnalyzer = new ClassNameAnalyzer();
+        $this->classElementsAnalyzer = new ClassElementsAnalyzer();
     }
 
     public function isCandidate(Tokens $tokens): bool {
@@ -56,14 +60,12 @@ class Foo implements Serializable {
     /**
      * Must run before OrderedClassElementsFixer
      * Must run after OrderedInterfacesFixer TODO: it's invariant right now: x < 0, but x > 65
+     *                                             see https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7760
      */
     public function getPriority(): int {
         return 75;
     }
 
-    /**
-     * @throws \ReflectionException
-     */
     protected function applyFix(SplFileInfo $file, Tokens $tokens): void {
         for ($i = 1, $count = $tokens->count(); $i < $count; ++$i) {
             $classToken = $tokens[$i];
@@ -81,7 +83,12 @@ class Foo implements Serializable {
             }
 
             foreach ($extensions as $className) {
-                $classReflection = new ReflectionClass($className);
+                try {
+                    $classReflection = new ReflectionClass($className);
+                } catch (ReflectionException $e) { // @phpstan-ignore catch.neverThrown
+                    continue;
+                }
+
                 $parents = $this->getClassParents($classReflection, new SplStack());
                 foreach ($parents as $parent) {
                     foreach ($parent->getMethods() as $method) {
@@ -102,43 +109,16 @@ class Foo implements Serializable {
             $classBodyStart = $tokens->getNextTokenOfKind($i, ['{']);
             $classBodyEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $classBodyStart);
 
-            /** @var list<MethodData> $unsortedMethods */
-            $unsortedMethods = [];
-            // TODO: actually there still might be properties and traits in between methods declarations
-            for ($j = $classBodyStart; $j < $classBodyEnd; $j++) {
-                $functionToken = $tokens[$j];
-                if (!$functionToken->isGivenKind(T_FUNCTION)) {
-                    continue;
-                }
-
-                $methodNameToken = $tokens[$tokens->getNextMeaningfulToken($j)];
-                // Ensure it's not an anonymous function
-                if ($methodNameToken->equals('(')) {
-                    continue;
-                }
-
-                $methodName = $methodNameToken->getContent();
-
-                // Take the closest whitespace to the beginning of the method
-                $methodStart = $tokens->getPrevTokenOfKind($j, ['}', ';', '{']) + 1;
-                $methodEnd = $this->findElementEnd($tokens, $j);
-
-                $unsortedMethods[] = [
-                    'name' => $methodName,
-                    'start' => $methodStart,
-                    'end' => $methodEnd,
-                ];
-            }
-
-            $sortedMethods = $this->sortMethods($unsortedMethods, $methodsPriority);
-            if ($sortedMethods === $unsortedMethods) {
+            $unsortedElements = $this->classElementsAnalyzer->getClassElements($tokens, $classBodyStart);
+            $sortedElements = $this->sortElements($unsortedElements, $methodsPriority);
+            if ($sortedElements === $unsortedElements) {
                 continue;
             }
 
-            $startIndex = $unsortedMethods[array_key_first($unsortedMethods)]['start'];
-            $endIndex = $unsortedMethods[array_key_last($unsortedMethods)]['end'];
+            $startIndex = $unsortedElements[array_key_first($unsortedElements)]['start'];
+            $endIndex = $unsortedElements[array_key_last($unsortedElements)]['end'];
             $replaceTokens = [];
-            foreach ($sortedMethods as $method) {
+            foreach ($sortedElements as $method) {
                 for ($k = $method['start']; $k <= $method['end']; ++$k) {
                     $replaceTokens[] = clone $tokens[$k];
                 }
@@ -146,12 +126,12 @@ class Foo implements Serializable {
 
             $tokens->overrideRange($startIndex, $endIndex, $replaceTokens);
 
-            $i = $endIndex;
+            $i = $classBodyEnd + 1;
         }
     }
 
     /**
-     * @return array<int, class-string>
+     * @return list<class-string>
      */
     private function getClassExtensions(Tokens $tokens, int $classTokenIndex, int $extensionType): array {
         $extensionTokenIndex = $tokens->getNextTokenOfKind($classTokenIndex, [[$extensionType], '{']);
@@ -194,34 +174,20 @@ class Foo implements Serializable {
     }
 
     /**
-     * Taken from the OrderedClassElementsFixer
-     */
-    private function findElementEnd(Tokens $tokens, int $index): int {
-        $blockStart = $tokens->getNextTokenOfKind($index, ['{', ';']);
-        if ($tokens[$blockStart]->equals('{')) {
-            $blockEnd = $tokens->findBlockEnd(Tokens::BLOCK_TYPE_CURLY_BRACE, $blockStart);
-        } else {
-            $blockEnd = $blockStart;
-        }
-
-        for (++$blockEnd; $tokens[$blockEnd]->isWhitespace(" \t") || $tokens[$blockEnd]->isComment(); ++$blockEnd);
-
-        --$blockEnd;
-
-        return $tokens[$blockEnd]->isWhitespace() ? $blockEnd - 1 : $blockEnd;
-    }
-
-    /**
-     * @phpstan-param list<MethodData> $methods
+     * @phpstan-param list<AnalyzedClassElement> $elements
      * @phpstan-param array<string, non-negative-int> $methodsPriority
      *
-     * @phpstan-return list<MethodData>
+     * @phpstan-return list<AnalyzedClassElement>
      */
-    private function sortMethods(array $methods, array $methodsPriority): array {
-        $count = count($methods);
+    private function sortElements(array $elements, array $methodsPriority): array {
+        $count = count($elements);
         $targetPriority = $methodsPriority[array_key_last($methodsPriority)];
         for ($i = 0; $i < $count; $i++) {
-            $a = $methods[$i];
+            $a = $elements[$i];
+            if ($a['type'] !== 'method') {
+                continue;
+            }
+
             if (!isset($methodsPriority[$a['name']])) {
                 continue;
             }
@@ -234,15 +200,19 @@ class Foo implements Serializable {
 
             do {
                 for ($j = $i + 1; $j < $count; $j++) {
-                    $b = $methods[$j];
+                    $b = $elements[$j];
+                    if ($b['type'] !== 'method') {
+                        continue;
+                    }
+
                     if (!isset($methodsPriority[$b['name']])) {
                         continue;
                     }
 
                     $priorityB = $methodsPriority[$b['name']];
                     if ($priorityB === $targetPriority) {
-                        $methods[$i] = $b;
-                        $methods[$j] = $a;
+                        $elements[$i] = $b;
+                        $elements[$j] = $a;
                         $targetPriority--;
 
                         continue 3;
@@ -252,7 +222,7 @@ class Foo implements Serializable {
         }
 
         // @phpstan-ignore return.type
-        return $methods;
+        return $elements;
     }
 
 }
