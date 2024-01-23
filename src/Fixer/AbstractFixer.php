@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace ErickSkrauch\PhpCsFixer;
+namespace ErickSkrauch\PhpCsFixer\Fixer;
 
 abstract class AbstractFixer extends \PhpCsFixer\AbstractFixer {
 

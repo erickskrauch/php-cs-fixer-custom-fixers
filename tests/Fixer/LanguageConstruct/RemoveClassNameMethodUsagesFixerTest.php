@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace ErickSkrauch\PhpCsFixer\Tests\LanguageConstruct;
+namespace ErickSkrauch\PhpCsFixer\Tests\Fixer\LanguageConstruct;
 
-use ErickSkrauch\PhpCsFixer\LanguageConstruct\RemoveClassNameMethodUsagesFixer;
+use ErickSkrauch\PhpCsFixer\Fixer\LanguageConstruct\RemoveClassNameMethodUsagesFixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 
 /**
- * @covers \ErickSkrauch\PhpCsFixer\LanguageConstruct\RemoveClassNameMethodUsagesFixer
+ * @covers \ErickSkrauch\PhpCsFixer\Fixer\LanguageConstruct\RemoveClassNameMethodUsagesFixer
  */
 final class RemoveClassNameMethodUsagesFixerTest extends AbstractFixerTestCase {
 

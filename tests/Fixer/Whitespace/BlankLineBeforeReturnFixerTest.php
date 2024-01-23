@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace ErickSkrauch\PhpCsFixer\Tests\Whitespace;
+namespace ErickSkrauch\PhpCsFixer\Tests\Fixer\Whitespace;
 
-use ErickSkrauch\PhpCsFixer\Whitespace\BlankLineBeforeReturnFixer;
+use ErickSkrauch\PhpCsFixer\Fixer\Whitespace\BlankLineBeforeReturnFixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use PhpCsFixer\WhitespacesFixerConfig;
@@ -20,7 +20,7 @@ use PhpCsFixer\WhitespacesFixerConfig;
  *
  * @property BlankLineBeforeReturnFixer $fixer
  *
- * @covers \ErickSkrauch\PhpCsFixer\Whitespace\BlankLineBeforeReturnFixer
+ * @covers \ErickSkrauch\PhpCsFixer\Fixer\Whitespace\BlankLineBeforeReturnFixer
  */
 final class BlankLineBeforeReturnFixerTest extends AbstractFixerTestCase {
 

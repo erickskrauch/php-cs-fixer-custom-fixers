@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace ErickSkrauch\PhpCsFixer\FunctionNotation;
+namespace ErickSkrauch\PhpCsFixer\Fixer\FunctionNotation;
 
-use ErickSkrauch\PhpCsFixer\AbstractFixer;
+use ErickSkrauch\PhpCsFixer\Fixer\AbstractFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;

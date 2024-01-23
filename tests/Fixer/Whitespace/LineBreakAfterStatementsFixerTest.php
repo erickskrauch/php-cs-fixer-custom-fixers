@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace ErickSkrauch\PhpCsFixer\Tests\Whitespace;
+namespace ErickSkrauch\PhpCsFixer\Tests\Fixer\Whitespace;
 
-use ErickSkrauch\PhpCsFixer\Whitespace\LineBreakAfterStatementsFixer;
+use ErickSkrauch\PhpCsFixer\Fixer\Whitespace\LineBreakAfterStatementsFixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 
 /**
- * @covers \ErickSkrauch\PhpCsFixer\Whitespace\LineBreakAfterStatementsFixer
+ * @covers \ErickSkrauch\PhpCsFixer\Fixer\Whitespace\LineBreakAfterStatementsFixer
  */
 final class LineBreakAfterStatementsFixerTest extends AbstractFixerTestCase {
 

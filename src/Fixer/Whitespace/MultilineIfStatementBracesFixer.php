@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace ErickSkrauch\PhpCsFixer\Whitespace;
+namespace ErickSkrauch\PhpCsFixer\Fixer\Whitespace;
 
-use ErickSkrauch\PhpCsFixer\AbstractFixer;
+use ErickSkrauch\PhpCsFixer\Fixer\AbstractFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;

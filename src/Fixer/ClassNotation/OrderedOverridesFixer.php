@@ -1,11 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace ErickSkrauch\PhpCsFixer\ClassNotation;
+namespace ErickSkrauch\PhpCsFixer\Fixer\ClassNotation;
 
-use ErickSkrauch\PhpCsFixer\AbstractFixer;
 use ErickSkrauch\PhpCsFixer\Analyzer\ClassElementsAnalyzer;
 use ErickSkrauch\PhpCsFixer\Analyzer\ClassNameAnalyzer;
+use ErickSkrauch\PhpCsFixer\Fixer\AbstractFixer;
 use PhpCsFixer\FixerDefinition\CodeSample;
 use PhpCsFixer\FixerDefinition\FixerDefinition;
 use PhpCsFixer\FixerDefinition\FixerDefinitionInterface;

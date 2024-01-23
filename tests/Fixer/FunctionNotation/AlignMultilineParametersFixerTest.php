@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace ErickSkrauch\PhpCsFixer\Tests\FunctionNotation;
+namespace ErickSkrauch\PhpCsFixer\Tests\Fixer\FunctionNotation;
 
-use ErickSkrauch\PhpCsFixer\FunctionNotation\AlignMultilineParametersFixer;
+use ErickSkrauch\PhpCsFixer\Fixer\FunctionNotation\AlignMultilineParametersFixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 
 /**
- * @covers \ErickSkrauch\PhpCsFixer\FunctionNotation\AlignMultilineParametersFixer
+ * @covers \ErickSkrauch\PhpCsFixer\Fixer\FunctionNotation\AlignMultilineParametersFixer
  */
 final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
 

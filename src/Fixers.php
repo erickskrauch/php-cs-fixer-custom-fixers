@@ -19,7 +19,7 @@ final class Fixers implements IteratorAggregate {
      */
     public function getIterator(): Traversable {
         $finder = new Finder();
-        $finder->in(__DIR__)->name('*.php');
+        $finder->in(__DIR__ . '/Fixer')->name('*.php');
         $classes = [];
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($finder as $file) {

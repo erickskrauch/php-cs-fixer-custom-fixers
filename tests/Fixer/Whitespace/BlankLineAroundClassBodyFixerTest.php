@@ -1,16 +1,16 @@
 <?php
 declare(strict_types=1);
 
-namespace ErickSkrauch\PhpCsFixer\Tests\Whitespace;
+namespace ErickSkrauch\PhpCsFixer\Tests\Fixer\Whitespace;
 
-use ErickSkrauch\PhpCsFixer\Whitespace\BlankLineAroundClassBodyFixer;
+use ErickSkrauch\PhpCsFixer\Fixer\Whitespace\BlankLineAroundClassBodyFixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 use PhpCsFixer\WhitespacesFixerConfig;
 
 /**
- * @property \ErickSkrauch\PhpCsFixer\Whitespace\BlankLineAroundClassBodyFixer $fixer
- * @covers \ErickSkrauch\PhpCsFixer\Whitespace\BlankLineAroundClassBodyFixer
+ * @property \ErickSkrauch\PhpCsFixer\Fixer\Whitespace\BlankLineAroundClassBodyFixer $fixer
+ * @covers \ErickSkrauch\PhpCsFixer\Fixer\Whitespace\BlankLineAroundClassBodyFixer
  */
 final class BlankLineAroundClassBodyFixerTest extends AbstractFixerTestCase {
 

@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace ErickSkrauch\PhpCsFixer\Tests\Whitespace;
+namespace ErickSkrauch\PhpCsFixer\Tests\Fixer\Whitespace;
 
-use ErickSkrauch\PhpCsFixer\Whitespace\MultilineIfStatementBracesFixer;
+use ErickSkrauch\PhpCsFixer\Fixer\Whitespace\MultilineIfStatementBracesFixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 
 /**
- * @covers \ErickSkrauch\PhpCsFixer\Whitespace\MultilineIfStatementBracesFixer
+ * @covers \ErickSkrauch\PhpCsFixer\Fixer\Whitespace\MultilineIfStatementBracesFixer
  */
 final class MultilineIfStatementBracesFixerTest extends AbstractFixerTestCase {
 

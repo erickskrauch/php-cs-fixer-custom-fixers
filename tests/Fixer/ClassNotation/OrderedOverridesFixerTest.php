@@ -1,14 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace ErickSkrauch\PhpCsFixer\Tests\ClassNotation;
+namespace ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation;
 
-use ErickSkrauch\PhpCsFixer\ClassNotation\OrderedOverridesFixer;
+use ErickSkrauch\PhpCsFixer\Fixer\ClassNotation\OrderedOverridesFixer;
 use PhpCsFixer\AbstractFixer;
 use PhpCsFixer\Tests\Test\AbstractFixerTestCase;
 
 /**
- * @covers \ErickSkrauch\PhpCsFixer\ClassNotation\OrderedOverridesFixer
+ * @covers \ErickSkrauch\PhpCsFixer\Fixer\ClassNotation\OrderedOverridesFixer
  */
 final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
@@ -34,7 +34,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'implements empty interface' => [
             '<?php
-            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\EmptyInterface {
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\EmptyInterface {
                 public function foo(): void {}
             }
             ',
@@ -42,13 +42,13 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'single interface implementation' => [
             '<?php
-            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceA {
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceA {
                 public function foo(): void {}
                 public function bar(): void {}
             }
             ',
             '<?php
-            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceA {
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceA {
                 public function bar(): void {}
                 public function foo(): void {}
             }
@@ -57,7 +57,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'multiple interfaces implementation' => [
             '<?php
-            use ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data;
+            use ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data;
 
             class A implements _data\InterfaceA, _data\InterfaceB {
                 public function foo(): void {}
@@ -67,7 +67,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
             }
             ',
             '<?php
-            use ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data;
+            use ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data;
 
             class A implements _data\InterfaceA, _data\InterfaceB {
                 public function baz(): void {}
@@ -80,7 +80,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'abstract class' => [
             '<?php
-            use ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data;
+            use ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data;
 
             abstract class A implements _data\InterfaceA, _data\InterfaceB {
                 public function bar(): void {}
@@ -89,7 +89,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
             }
             ',
             '<?php
-            use ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data;
+            use ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data;
 
             abstract class A implements _data\InterfaceA, _data\InterfaceB {
                 public function baz(): void {}
@@ -101,7 +101,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'interface extension' => [
             '<?php
-            interface ExtendedA extends \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceA {
+            interface ExtendedA extends \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceA {
                 public function baz(): void;
             }
             ',
@@ -109,14 +109,14 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'non-interface methods' => [
             '<?php
-            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceA {
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceA {
                 public function foo(): void {}
                 public function nonInterface(): void {}
                 public function bar(): void {}
             }
             ',
             '<?php
-            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceA {
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceA {
                 public function bar(): void {}
                 public function nonInterface(): void {}
                 public function foo(): void {}
@@ -126,14 +126,14 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'extend abstract class' => [
             '<?php
-            class A extends \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\AbstractA {
+            class A extends \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\AbstractA {
                 public function foo(): void {}
                 public function nonInterface(): void {}
                 public function bar(): void {}
             }
             ',
             '<?php
-            class A extends \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\AbstractA {
+            class A extends \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\AbstractA {
                 public function bar(): void {}
                 public function nonInterface(): void {}
                 public function foo(): void {}
@@ -143,7 +143,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'interface with multiple extends' => [
             '<?php
-            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceAandB {
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceAandB {
                 public function foo(): void {}
                 public function nonInterface(): void {}
                 public function bar(): void {}
@@ -153,7 +153,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
             }
             ',
             '<?php
-            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceAandB {
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceAandB {
                 public function bar(): void {}
                 public function nonInterface(): void {}
                 public function qux() : void{}
@@ -166,7 +166,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'mix of extends and interface' => [
             '<?php
-            use ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data;
+            use ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data;
 
             class A extends _data\AbstractA implements _data\InterfaceB {
                 public function foo(): void {}
@@ -176,7 +176,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
             }
             ',
             '<?php
-            use ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data;
+            use ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data;
 
             class A extends _data\AbstractA implements _data\InterfaceB {
                 public function qux() : void{}
@@ -189,7 +189,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'function in implementation' => [
             '<?php
-            class A extends \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\AbstractA {
+            class A extends \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\AbstractA {
                 public function bar(): void {
                     $a = function() {
                         // body
@@ -201,13 +201,13 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'anonymous class' => [
             '<?php
-            $a = new class implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceA {
+            $a = new class implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceA {
                 public function foo(): void {}
                 public function bar(): void {}
             };
             ',
             '<?php
-            $a = new class implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceA {
+            $a = new class implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceA {
                 public function bar(): void {}
                 public function foo(): void {}
             };
@@ -225,7 +225,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'mix of other class elements' => [
             '<?php
-            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceA {
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceA {
                 public function foo(): void {}
                 private string $a;
                 public function nonInterface(): void {}
@@ -236,7 +236,7 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
             }
             ',
             '<?php
-            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceA {
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceA {
                 public function bar(): void {}
                 private string $a;
                 public function nonInterface(): void {}
@@ -250,13 +250,13 @@ final class OrderedOverridesFixerTest extends AbstractFixerTestCase {
 
         yield 'use the order of the deepest parent ' => [
             '<?php
-            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceAReverseOrder {
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceAReverseOrder {
                 public function foo(): void {}
                 public function bar(): void {}
             }
             ',
             '<?php
-            class A implements \ErickSkrauch\PhpCsFixer\Tests\ClassNotation\_data\InterfaceAReverseOrder {
+            class A implements \ErickSkrauch\PhpCsFixer\Tests\Fixer\ClassNotation\_data\InterfaceAReverseOrder {
                 public function bar(): void {}
                 public function foo(): void {}
             }
