@@ -59,8 +59,7 @@ class Foo implements Serializable {
 
     /**
      * Must run before OrderedClassElementsFixer
-     * Must run after OrderedInterfacesFixer TODO: it's invariant right now: x < 0, but x > 65
-     *                                             see https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7760
+     * Must run after OrderedInterfacesFixer, but can't. See https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7760
      */
     public function getPriority(): int {
         return 75;

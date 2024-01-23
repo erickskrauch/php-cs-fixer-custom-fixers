@@ -168,8 +168,6 @@ Ensures that multiline if statement body curly brace placed on the right line.
 
 Overridden and implemented methods must be sorted in the same order as they are defined in parent classes.
 
-**Warning**: this fixer is implemented against the PHP-CS-Fixer principle and relies on runtime, classes autoloading and reflection. If dependencies are missing or the autoloader isn't configured correctly, the fixer will not be able to discover the order of methods in parents.
-
 ```diff
 --- Original
 +++ New
@@ -185,6 +183,14 @@ Overridden and implemented methods must be sorted in the same order as they are 
 
  }
 ```
+
+**Caveats:**
+
+* This fixer is implemented against the PHP-CS-Fixer principle and relies on runtime, classes autoloading and reflection. If dependencies are missing or the autoloader isn't configured correctly, the fixer will not be able to discover the order of methods in parents.
+
+* Fixer prioritizes `extends` and applies `implements` afterwards. It searches for the deepest parents of classes and takes them as the basis for sorting, ignoring later reordering.
+
+* This fixer runs BEFORE the `ordered_interfaces` fixer, so you might need to run PHP-CS-Fixer twice when you're using this fixer to get proper result. See [this discussion](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7760) for more info.
 
 ### `ErickSkrauch/remove_class_name_method_usages` (Yii2)
 
