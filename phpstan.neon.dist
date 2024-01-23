@@ -7,3 +7,7 @@ parameters:
     - src
     - tests
   tipsOfTheDay: false
+  ignoreErrors:
+    # https://github.com/phpstan/phpstan-strict-rules/issues/36
+    - message: '#Dynamic call to static method PHPUnit\\Framework\\.*#'
+      path: tests/*

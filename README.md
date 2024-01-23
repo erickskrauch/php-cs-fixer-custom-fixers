@@ -29,6 +29,16 @@ return (new \PhpCsFixer\Config())
 
 ## Fixers
 
+Table of contents:
+
+* [`ErickSkrauch/align_multiline_parameters`](#erickskrauchalign_multiline_parameters) - Align multiline function params (or remove alignment).
+* [`ErickSkrauch/blank_line_around_class_body`](#erickskrauchblank_line_around_class_body) - Add space inside class body.
+* [`ErickSkrauch/blank_line_before_return`](#erickskrauchblank_line_before_return) - Add blank line before `return`.
+* [`ErickSkrauch/line_break_after_statements`](#erickskrauchline_break_after_statements) - Add blank line after control structures.
+* [`ErickSkrauch/multiline_if_statement_braces`](#erickskrauchmultiline_if_statement_braces) - Fix brace position for multiline `if` statements.
+* [`ErickSkrauch/ordered_overrides`](#erickskrauchordered_overrides) - Sort overridden methods.
+* [`ErickSkrauch/remove_class_name_method_usages`](#erickskrauchremove_class_name_method_usages-yii2) - Replace `::className()` with `:class` (Yii2).
+
 ### `ErickSkrauch/align_multiline_parameters`
 
 Forces aligned or not aligned multiline function parameters:
@@ -153,6 +163,34 @@ Ensures that multiline if statement body curly brace placed on the right line.
 
 * `keep_on_own_line` - should this place closing bracket on its own line? If it's set to `false`, than
   curly bracket will be placed right after the last condition statement. **Default**: `true`.
+
+### `ErickSkrauch/ordered_overrides`
+
+Overridden and implemented methods must be sorted in the same order as they are defined in parent classes.
+
+```diff
+--- Original
++++ New
+@@ @@
+ <?php
+ class Foo implements Serializable {
+
+-    public function unserialize($data) {}
++    public function serialize() {}
+
+-    public function serialize() {}
++    public function unserialize($data) {}
+
+ }
+```
+
+**Caveats:**
+
+* This fixer is implemented against the PHP-CS-Fixer principle and relies on runtime, classes autoloading and reflection. If dependencies are missing or the autoloader isn't configured correctly, the fixer will not be able to discover the order of methods in parents.
+
+* Fixer prioritizes `extends` and applies `implements` afterwards. It searches for the deepest parents of classes and takes them as the basis for sorting, ignoring later reordering.
+
+* This fixer runs BEFORE the `ordered_interfaces` fixer, so you might need to run PHP-CS-Fixer twice when you're using this fixer to get proper result. See [this discussion](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/issues/7760) for more info.
 
 ### `ErickSkrauch/remove_class_name_method_usages` (Yii2)
 
