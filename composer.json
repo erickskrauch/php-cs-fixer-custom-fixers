@@ -17,7 +17,7 @@
     "homepage": "https://github.com/erickskrauch/php-cs-fixer-custom-fixers",
     "require": {
         "php": "^7.4 || ^8.0",
-        "friendsofphp/php-cs-fixer": "^3"
+        "friendsofphp/php-cs-fixer": "^3.59"
     },
     "require-dev": {
         "ely/php-code-style": "^1",

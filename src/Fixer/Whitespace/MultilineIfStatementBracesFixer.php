@@ -5,6 +5,7 @@ namespace ErickSkrauch\PhpCsFixer\Fixer\Whitespace;
 
 use ErickSkrauch\PhpCsFixer\Fixer\AbstractFixer;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
+use PhpCsFixer\Fixer\ConfigurableFixerTrait;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolverInterface;
@@ -23,6 +24,7 @@ use SplFileInfo;
  * } $configuration
  */
 final class MultilineIfStatementBracesFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface {
+    use ConfigurableFixerTrait;
 
     /**
      * @internal
