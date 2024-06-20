@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace ErickSkrauch\PhpCsFixer\Fixer\Whitespace;
 
 use ErickSkrauch\PhpCsFixer\Fixer\AbstractFixer;
+use ErickSkrauch\PhpCsFixer\Legacy\LegacyConfigurableFixerTrait;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -31,6 +32,8 @@ use SplFileInfo;
  * } $configuration
  */
 final class BlankLineAroundClassBodyFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface {
+
+    use LegacyConfigurableFixerTrait;
 
     /**
      * @internal
