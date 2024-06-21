@@ -11,6 +11,7 @@ use PhpCsFixer\AbstractFixer;
 //
 // Commit: https://github.com/PHP-CS-Fixer/PHP-CS-Fixer/commit/064efa1f#diff-e1fb45756cd1d53b6d67072d8a026692c07af55617018229b0bf4ab6c22e3e53L105
 // See https://github.com/erickskrauch/php-cs-fixer-custom-fixers/issues/12
+// @phpstan-ignore-next-line sometimes it exists, sometime it's not ;)
 if (method_exists(AbstractFixer::class, 'configure')) {
     trait ConfigurableFixerTrait {
 
