@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Enh #4: Introduce `ErickSkrauch\ordered_overrides` fixer.
 
+### Fixed
+- Fix #14: Ensure compatibility with PHP-CS-Fixer 3.59.3 (alamirault).
+
 ## [1.2.4] - 2024-01-15
 ### Fixed
 - Bug #9: `ErickSkrauch/align_multiline_parameters` now correctly aligns variadic arguments.
