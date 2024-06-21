@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace ErickSkrauch\PhpCsFixer\Fixer\FunctionNotation;
 
 use ErickSkrauch\PhpCsFixer\Fixer\AbstractFixer;
+use ErickSkrauch\PhpCsFixer\Fixer\ConfigurableFixerTrait;
 use PhpCsFixer\Fixer\ConfigurableFixerInterface;
 use PhpCsFixer\Fixer\WhitespacesAwareFixerInterface;
 use PhpCsFixer\FixerConfiguration\FixerConfigurationResolver;
@@ -34,6 +35,7 @@ use SplFileInfo;
  * }
  */
 final class AlignMultilineParametersFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface {
+    use ConfigurableFixerTrait;
 
     /**
      * @internal
