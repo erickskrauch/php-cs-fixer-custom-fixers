@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace ErickSkrauch\PhpCsFixer;
 
 use IteratorAggregate;
-use PhpCsFixer\Finder;
 use PhpCsFixer\Fixer\FixerInterface;
 use ReflectionClass;
+use Symfony\Component\Finder\Finder;
 use Traversable;
 
 /**
@@ -19,7 +19,9 @@ final class Fixers implements IteratorAggregate {
      */
     public function getIterator(): Traversable {
         $finder = new Finder();
-        $finder->in(__DIR__ . '/Fixer')->name('*.php');
+        $finder->files()
+            ->name('*.php')
+            ->in(__DIR__ . '/Fixer');
         $classes = [];
         /** @var \Symfony\Component\Finder\SplFileInfo $file */
         foreach ($finder as $file) {
