@@ -32,6 +32,7 @@ use SplFileInfo;
  *     nameLength: positive-int,
  *     nameIndex: int,
  *     isVariadic: bool,
+ *     isReference: bool,
  * }
  */
 final class AlignMultilineParametersFixer extends AbstractFixer implements ConfigurableFixerInterface, WhitespacesAwareFixerInterface {
@@ -171,6 +172,11 @@ function test(
                     }
                 }
 
+                if ($declarationAnalysis['isReference'] && $longestType === $declarationAnalysis['typeLength']) {
+                    // Reserve one column for the "&", which hugs the variable name like "..." does
+                    ++$longestType;
+                }
+
                 $analysedArguments[] = $declarationAnalysis;
             }
 
@@ -193,17 +199,22 @@ function test(
                 }
 
                 if ($this->configuration[self::C_VARIABLES] !== null) {
+                    // The "..." and "&" prefixes hug the variable name, so the whitespace we align
+                    // sits before them. The "&" spacing itself is left to the built-in fixers.
+                    $prefixIndex = $argument['nameIndex'];
                     if ($argument['isVariadic']) {
-                        $whitespaceIndex = $tokens->getPrevMeaningfulToken($argument['nameIndex']) - 1;
-                    } else {
-                        $whitespaceIndex = $argument['nameIndex'] - 1;
+                        $prefixIndex = $tokens->getPrevMeaningfulToken($prefixIndex);
                     }
 
+                    if ($argument['isReference']) {
+                        $prefixIndex = $tokens->getPrevMeaningfulToken($prefixIndex);
+                    }
+
+                    $whitespaceIndex = $prefixIndex - 1;
+
                     if ($this->configuration[self::C_VARIABLES] === true) {
-                        $alignLength = $longestType - $argument['typeLength'] + (int)$hasAtLeastOneTypedArgument;
-                        if ($argument['isVariadic']) {
-                            $alignLength -= 3; // 3 is the length of "..."
-                        }
+                        $prefixLength = ($argument['isVariadic'] ? 3 : 0) + ($argument['isReference'] ? 1 : 0);
+                        $alignLength = $longestType - $argument['typeLength'] - $prefixLength + (int)$hasAtLeastOneTypedArgument;
 
                         $appendix = str_repeat(' ', $alignLength);
                         if ($argument['typeLength'] > 0) {
@@ -237,6 +248,13 @@ function test(
         if ($variadicToken->isGivenKind(T_ELLIPSIS)) {
             $isVariadic = true;
             $searchIndex = $variadicTokenIndex;
+        }
+
+        $isReference = false;
+        $referenceTokenIndex = $tokens->getPrevMeaningfulToken($searchIndex);
+        if ($tokens[$referenceTokenIndex]->getContent() === '&') {
+            $isReference = true;
+            $searchIndex = $referenceTokenIndex;
         }
 
         if ($typeAnalysis !== null) {
@@ -280,6 +298,7 @@ function test(
             'nameLength' => $nameLength,
             'nameIndex' => $nameIndex,
             'isVariadic' => $isVariadic,
+            'isReference' => $isReference,
         ];
     }
 

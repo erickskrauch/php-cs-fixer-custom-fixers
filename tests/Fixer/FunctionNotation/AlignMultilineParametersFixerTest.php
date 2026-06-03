@@ -310,6 +310,87 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
             ): void {}
             ',
         ];
+
+        yield 'pass-by-reference parameter (untyped)' => [
+            '<?php
+            function test(
+                string $a,
+                      &$b
+            ): void {}
+            ',
+            '<?php
+            function test(
+                string $a,
+                &$b
+            ): void {}
+            ',
+        ];
+
+        yield 'pass-by-reference parameter (multiple untyped)' => [
+            '<?php
+            function test(
+                GameRoom $gameRoom,
+                        &$status,
+                        &$statusCode
+            ): void {}
+            ',
+            '<?php
+            function test(
+                GameRoom $gameRoom,
+                &$status,
+                &$statusCode
+            ): void {}
+            ',
+        ];
+
+        yield 'pass-by-reference parameter (mixed typed and untyped)' => [
+            '<?php
+            function test(
+                string $a,
+                      &$b,
+                int    $c
+            ): void {}
+            ',
+            '<?php
+            function test(
+                string $a,
+                &$b,
+                int $c
+            ): void {}
+            ',
+        ];
+
+        yield 'pass-by-reference parameter (typed)' => [
+            '<?php
+            function test(
+                string &$a,
+                int     $b
+            ): void {}
+            ',
+            '<?php
+            function test(
+                string &$a,
+                int $b
+            ): void {}
+            ',
+        ];
+
+        yield 'pass-by-reference parameter (typed, multiple)' => [
+            '<?php
+            function test(
+                string &$a,
+                int    &$b,
+                bool    $c
+            ): void {}
+            ',
+            '<?php
+            function test(
+                string &$a,
+                int &$b,
+                bool $c
+            ): void {}
+            ',
+        ];
     }
 
     /**
@@ -556,6 +637,34 @@ final class AlignMultilineParametersFixerTest extends AbstractFixerTestCase {
                     protected readonly int | string|null $int = 0
                 ) {}
             }
+            ',
+        ];
+        yield 'intersection type is not treated as a reference' => [
+            '<?php
+            function test(
+                Iterator&Countable $a,
+                int                $b
+            ): void {}
+            ',
+            '<?php
+            function test(
+                Iterator&Countable $a,
+                int $b
+            ): void {}
+            ',
+        ];
+        yield 'intersection type passed by reference' => [
+            '<?php
+            function test(
+                Iterator&Countable &$a,
+                int                 $b
+            ): void {}
+            ',
+            '<?php
+            function test(
+                Iterator&Countable &$a,
+                int $b
+            ): void {}
             ',
         ];
     }
